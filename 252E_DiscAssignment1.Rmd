@@ -1,0 +1,87 @@
+---
+title: 'Discussion Assignment #1'
+author: "Sabrina Boyce, Shelley Facente, and Steph Holm"
+date: "10/7/2019"
+output:
+  beamer_presentation: default
+---
+
+# Question 8: Give a detailed implementation of longitudinal IPTW to estimate parameters of an MSM without effect modifiers (Section 7-8).
+
+## Implementing the Horvitz-Thompson Estimator
+We are interested in the expected $Y$ if everyone got treatment regime $\bar{A}(t) = \bar{a}$, for t= 0,1.
+\[ \Psi^F(P_{U,X}) = E_{U,X}[Y_{\bar{A}(t)=\bar{a}}] \] 
+
+The Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,X}\right)$ is:
+\begin{align*}
+\hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
+\end{align*}
+
+<!-- FYI for Sabrina- marking somehting like this turns it into a comment ;) -->
+
+<!--I took what you had started and tweaked the formulas slightly + added example summaries following her example in the lecture slides (lecture 4, slides 20- )-->
+
+## Step 1: Calculate appropriate stabilized weights using the modified Horvitz-Thomas estimator
+
+$Weights = \frac{1}{g_n(A_i(0) | L_i(0))\times g_n(A_i(1) | A_i(0), L_i(0), L_i(1))}$
+
+\vspace{6 mm}
+
+### Part a: 
+Estimate the probability of receiving treatment using correctly specified parametric regression models (logistic regression)
+
+\begin{align*}
+g_0(A(0)=a(0)|L(0)) &= expit[\beta_0 + \beta_1 L(0)] \\
+g_0(A(0)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] \\
+\end{align*}
+
+**In this example** we are estimating the probability of being treated with AZT at each time point, given the covariate pattern and the prior history of AZT treatment.
+
+## Step 1: Calculate appropriate stabilized weights using the modified Horvitz-Thomas estimator
+
+###Part b:
+Predict each subject's probability of the exposure at each time t, given his or her observed exposure and covariate history.
+
+\vspace{6 mm}
+$g_n(A_i(t)=a_i(t) | \bar{A}_i(t-1), L_i(t))$
+
+\vspace{6mm}
+
+**In this example:**
+
+* for time points where AZT treatment is NOT occuring it is the predicted probability of NOT being treated, given the observed past.
+* for time points where AZT treatment IS occuring it is the predicted probability of being treated, given the observed past.
+
+## Step 1: Calculate appropriate stabilized weights using the modified Horvitz-Thomas estimator
+
+###Part c:
+Predict each subject's probability of the entire exposure history, which is the product of the time point specific probabilities. 
+
+\vspace{6mm}
+
+$\prod_{t=1}^k(A_i(t) | \bar{A_i}(t-1),\bar{L_i}(t))$
+
+\vspace{6mm}
+
+**In this example** we are estimating the probability of their entire AZT treatment hitory pattern.
+
+\vspace{4mm}
+
+The weights, as given earlier, are thus the inverse of these products.
+
+## Step 2: Take the weighted average of observed outcomes across the population 
+
+\vspace{3mm}
+
+The Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,X}\right)$ is:
+\begin{align*}
+\hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
+\end{align*}
+
+The Modified or Stabilized Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,X}\right)$ is:
+\begin{align*}
+\hat{\Psi}(P_n) & =\dfrac{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i}{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}}\\
+\end{align*}
+
+
+# Question 9: How would you modify the above procedure when the target causal parameter is a MSM with effect modification (Section 9)?
