@@ -32,7 +32,7 @@ Estimate the probability of receiving treatment using correctly specified parame
 
 \begin{align*}
 g_0(A(0)=a(0)|L(0)) &= expit[\beta_0 + \beta_1 L(0)] \\
-g_0(A(0)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] \\
+g_0(A(1)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] \\
 \end{align*}
 
 **In this example** we are estimating the probability of being treated with AZT at each time point, given the covariate pattern and the prior history of AZT treatment.
