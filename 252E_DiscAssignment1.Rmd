@@ -12,7 +12,7 @@ output:
 We are interested in the expected $Y$ if everyone got treatment regime $\bar{A}(t) = \bar{a}$, for t= 0,1.
 \[ \Psi^F(P_{U,X}) = E_{U,X}[Y_{\bar{A}(t)=\bar{a}}] \] 
 
-The Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,X}\right)$ is:
+The Horvitz-Thompson IPTW estimator for $\Psi^F\left(P_{U,X}\right)$ is:
 \begin{align*}
 \hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
 \end{align*}
@@ -32,7 +32,7 @@ Estimate the probability of receiving treatment using correctly specified parame
 
 \begin{align*}
 g_0(A(0)=a(0)|L(0)) &= expit[\beta_0 + \beta_1 L(0)] \\
-g_0(A(0)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] \\
+g_0(A(1)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] \\
 \end{align*}
 
 **In this example** we are estimating the probability of being treated with AZT at each time point, given the covariate pattern and the prior history of AZT treatment.
@@ -43,7 +43,7 @@ g_0(A(0)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] 
 Predict each subject's probability of the exposure at each time t, given his or her observed exposure and covariate history.
 
 \vspace{6 mm}
-$g_n(A_i(t)=a_i(t) | \bar{A}_i(t-1), L_i(t))$
+$g_n(A_i(t)=a_i(t) | \bar{A}_i(t-1), \bar{L_i}(t))$
 
 \vspace{6mm}
 
@@ -73,7 +73,7 @@ The weights, as given earlier, are thus the inverse of these products.
 
 \vspace{3mm}
 
-The Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,X}\right)$ is:
+The Horvitz-Thompson IPTW estimator for $\Psi^F\left(P_{U,X}\right)$ is:
 \begin{align*}
 \hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
 \end{align*}
