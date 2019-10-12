@@ -17,7 +17,7 @@ The Horvitz-Thompson IPTW estimator for $\Psi^F\left(P_{U,X}\right)$ is:
 \hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
 \end{align*}
 
-<!-- FYI for Sabrina- marking somehting like this turns it into a comment ;) -->
+<!-- FYI for Sabrina- marking something like this turns it into a comment ;) -->
 
 <!--I took what you had started and tweaked the formulas slightly + added example summaries following her example in the lecture slides (lecture 4, slides 20- )-->
 
@@ -27,7 +27,7 @@ $Weights = \frac{1}{g_n(A_i(0) | L_i(0))\times g_n(A_i(1) | A_i(0), L_i(0), L_i(
 
 \vspace{6 mm}
 
-### Part a: 
+### Part A: 
 Estimate the probability of receiving treatment using correctly specified parametric regression models (logistic regression)
 
 \begin{align*}
@@ -39,10 +39,11 @@ g_0(A(1)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] 
 
 ## Step 1: Calculate appropriate stabilized weights using the modified Horvitz-Thomas estimator
 
-###Part b:
+### Part B:
 Predict each subject's probability of the exposure at each time t, given his or her observed exposure and covariate history.
 
 \vspace{6 mm}
+
 $g_n(A_i(t)=a_i(t) | \bar{A}_i(t-1), \bar{L_i}(t))$
 
 \vspace{6mm}
@@ -54,7 +55,7 @@ $g_n(A_i(t)=a_i(t) | \bar{A}_i(t-1), \bar{L_i}(t))$
 
 ## Step 1: Calculate appropriate stabilized weights using the modified Horvitz-Thomas estimator
 
-###Part c:
+### Part C:
 Predict each subject's probability of the entire exposure history, which is the product of the time point specific probabilities. 
 
 \vspace{6mm}
@@ -79,9 +80,27 @@ The Horvitz-Thompson IPTW estimator for $\Psi^F\left(P_{U,X}\right)$ is:
 \end{align*}
 
 The Modified or Stabilized Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,X}\right)$ is:
+
 \begin{align*}
 \hat{\Psi}(P_n) & =\dfrac{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i}{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}}\\
 \end{align*}
 
-
 # Question 9: How would you modify the above procedure when the target causal parameter is a MSM with effect modification (Section 9)?
+
+## Including Baseline Covariates in the Model
+\vspace{3mm}
+If effect modification by baseline covariates $V$ (a subset of $L(t)$) is of interest to the target causal parameter, inclusion of those baseline characteristics in the MSM allows for their incorporation into the counterfactual pseudopopulations.
+
+\vspace{3mm}
+Therefore, we want to condition on baseline covariates $V$ in our model, where the model is now:
+\vspace{-6mm}
+\begin{align*}
+E[Y_{\bar{a}}|V] = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=0}^1a(t) + \beta_2V + \beta_3\sum_{t=0}^1a(t) \times V
+\end{align*}
+
+\vspace{3mm}
+The choice of numerator in the MSM changes the target parameter being measured, and the stabilized weights can be improved:
+\vspace{-5mm}
+\begin{align*}
+\hat{sw}_\mathnormal{i} = \frac{g_n(\bar{A}_\mathnormal{i}(1)|V_i)}{\prod_{t=0}^1g_n(A_\mathnormal{i}(t)|\bar{A}(t-1), \bar{L}_\mathnormal{i}(t))}\\
+\end{align*}
