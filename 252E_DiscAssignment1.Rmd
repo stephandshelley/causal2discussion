@@ -268,7 +268,7 @@ They are referring to the positivity assumption. In order for IPTW estimators to
 * Allows us to use confounded observational data to approximate data wherein the exposure was randomized.
 
 ## Disadvantages:
-* It has high variance compared to alternative methods.
+* It has high variance compared to alternative methods (it is inefficient).
 * It is easy to run into ositivity violations or near violations, which leadsto a biased estimator. Because the weights are the inverse of the product of the probabilities, if there are many time points even moderately small probabilities can end up producing quite large weights once everything is multiplied through. (Stablizing the weights does help.)
 * Relies on consistent estimation of the probabilities, often using parametric models. If model is misspecified, the parameter can be biased.
 
