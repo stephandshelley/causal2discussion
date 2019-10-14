@@ -1,0 +1,338 @@
+\documentclass[ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+\hypersetup{
+            pdftitle={Discussion Assignment \#1},
+            pdfauthor={Sabrina Boyce, Shelley Facente, and Steph Holm},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \let\insertsectionnumber\relax
+    \let\sectionname\relax
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+\title{Discussion Assignment \#1}
+\author{Sabrina Boyce, Shelley Facente, and Steph Holm}
+\date{10/7/2019}
+
+\begin{document}
+\frame{\titlepage}
+
+\section{Question 8: Give a detailed implementation of longitudinal IPTW
+to estimate parameters of an MSM without effect modifiers (Section
+7-8).}\label{question-8-give-a-detailed-implementation-of-longitudinal-iptw-to-estimate-parameters-of-an-msm-without-effect-modifiers-section-7-8.}
+
+\begin{frame}{Implementing the Horvitz-Thompson Estimator}
+
+We are interested in the expected \(Y\) if everyone got treatment regime
+\(\bar{A}(t) = \bar{a}\), for t= 0,1.
+\[ \Psi^F(P_{U,X}) = E_{U,X}[Y_{\bar{A}(t)=\bar{a}}] \]
+
+The Horvitz-Thompson IPTW estimator for \(\Psi^F\left(P_{U,X}\right)\)
+is:
+
+\begin{align*}
+\hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Step 1: Calculate appropriate stabilized weights using the
+modified Horvitz-Thomas estimator}
+
+\(Weights = \frac{1}{g_n(A_i(0) | L_i(0))\times g_n(A_i(1) | A_i(0), L_i(0), L_i(1))}\)
+
+\vspace{6 mm}
+
+\begin{block}{Part A:}
+
+Estimate the probability of receiving treatment using correctly
+specified parametric regression models (logistic regression)
+
+\begin{align*}
+g_0(A(0)=a(0)|L(0)) &= expit[\beta_0 + \beta_1 L(0)] \\
+g_0(A(1)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] \\
+\end{align*}
+
+\textbf{In this example} we are estimating the probability of being
+treated with AZT at each time point, given the covariate pattern and the
+prior history of AZT treatment.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Step 1: Calculate appropriate stabilized weights using the
+modified Horvitz-Thomas estimator}
+
+\begin{block}{Part B:}
+
+Predict each subject's probability of the exposure at each time t, given
+his or her observed exposure and covariate history.
+
+\vspace{6 mm}
+
+\(g_n(A_i(t)=a_i(t) | \bar{A}_i(t-1), \bar{L_i}(t))\)
+
+\vspace{6mm}
+
+\textbf{In this example:}
+
+\begin{itemize}
+\tightlist
+\item
+  for time points where AZT treatment is NOT occuring it is the
+  predicted probability of NOT being treated, given the observed past.
+\item
+  for time points where AZT treatment IS occuring it is the predicted
+  probability of being treated, given the observed past.
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Step 1: Calculate appropriate stabilized weights using the
+modified Horvitz-Thomas estimator}
+
+\begin{block}{Part C:}
+
+Predict each subject's probability of the entire exposure history, which
+is the product of the time point specific probabilities.
+
+\vspace{6mm}
+
+\(\prod_{t=1}^k(A_i(t) | \bar{A_i}(t-1),\bar{L_i}(t))\)
+
+\vspace{6mm}
+
+\textbf{In this example} we are estimating the probability of their
+entire AZT treatment hitory pattern.
+
+\vspace{4mm}
+
+The weights, as given earlier, are thus the inverse of these products.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Step 2: Take the weighted average of observed outcomes
+across the population}
+
+\vspace{3mm}
+
+The Horvitz-Thompson IPTW estimator for \(\Psi^F\left(P_{U,X}\right)\)
+is:
+
+\begin{align*}
+\hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
+\end{align*}
+
+The Modified or Stabilized Horvitz-Thompson IPTW estimator for
+\(Psi^F\left(P_{U,X}\right)\) is:
+
+\begin{align*}
+\hat{\Psi}(P_n) & =\dfrac{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i}{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}}\\
+\end{align*}
+
+\end{frame}
+
+\section{Question 8: Give a detailed implementation of longitudinal IPTW
+to estimate parameters of an MSM without effect modifiers (Section
+7-8).}\label{question-8-give-a-detailed-implementation-of-longitudinal-iptw-to-estimate-parameters-of-an-msm-without-effect-modifiers-section-7-8.-1}
+
+\begin{frame}{Implementing the Estimator}
+
+We are interested in the expected \(Y\) if everyone got treatment regime
+\(\bar{A}(t) = \bar{a}\), for t= 0,\ldots{},k.
+\[ \Psi^F(P_{U,X}) = E_{U,X}[Y_{\bar{A}(t)=\bar{a}}] \]
+
+The stabilized weights are:
+
+\(sw_i & = \frac{\prod_{k=0}^K g_n(A_k= a_{ki} | \bar{A}_{k-1} = \bar{a}_{(k-1)i}{\prod_{k=0}^K g_n(A_k= a_{ki} | \bar{A}_{k-1} = \bar{a}_{(k-1)i}, \bar{L}_k = \bar{l}_{ki}}\)
+
+\end{frame}
+
+\begin{frame}{Step 1: Calculate appropriate stabilized weights using the
+modified Horvitz-Thomas estimator}
+
+\(Weights = \frac{1}{g_n(A_i(0) | L_i(0))\times g_n(A_i(1) | A_i(0), L_i(0), L_i(1))}\)
+
+\vspace{6 mm}
+
+\begin{block}{Part A:}
+
+Estimate the probability of receiving treatment using correctly
+specified parametric regression models (logistic regression)
+
+\begin{align*}
+g_0(A(0)=a(0)|L(0)) &= expit[\beta_0 + \beta_1 L(0)] \\
+g_0(A(1)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] \\
+\end{align*}
+
+\textbf{In this example} we are estimating the probability of being
+treated with AZT at each time point, given the covariate pattern and the
+prior history of AZT treatment.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Step 1: Calculate appropriate stabilized weights using the
+modified Horvitz-Thomas estimator}
+
+\begin{block}{Part B:}
+
+Predict each subject's probability of the exposure at each time t, given
+his or her observed exposure and covariate history.
+
+\vspace{6 mm}
+
+\(g_n(A_i(t)=a_i(t) | \bar{A}_i(t-1), \bar{L_i}(t))\)
+
+\vspace{6mm}
+
+\textbf{In this example:}
+
+\begin{itemize}
+\tightlist
+\item
+  for time points where AZT treatment is NOT occuring it is the
+  predicted probability of NOT being treated, given the observed past.
+\item
+  for time points where AZT treatment IS occuring it is the predicted
+  probability of being treated, given the observed past.
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Step 1: Calculate appropriate stabilized weights using the
+modified Horvitz-Thomas estimator}
+
+\begin{block}{Part C:}
+
+Predict each subject's probability of the entire exposure history, which
+is the product of the time point specific probabilities.
+
+\vspace{6mm}
+
+\(\prod_{t=1}^k(A_i(t) | \bar{A_i}(t-1),\bar{L_i}(t))\)
+
+\vspace{6mm}
+
+\textbf{In this example} we are estimating the probability of their
+entire AZT treatment hitory pattern.
+
+\vspace{4mm}
+
+The weights, as given earlier, are thus the inverse of these products.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Step 2: Take the weighted average of observed outcomes
+across the population}
+
+\vspace{3mm}
+
+The Horvitz-Thompson IPTW estimator for \(\Psi^F\left(P_{U,X}\right)\)
+is:
+
+\begin{align*}
+\hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
+\end{align*}
+
+The Modified or Stabilized Horvitz-Thompson IPTW estimator for
+\(Psi^F\left(P_{U,X}\right)\) is:
+
+\begin{align*}
+\hat{\Psi}(P_n) & =\dfrac{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i}{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}}\\
+\end{align*}
+
+\end{frame}
+
+\section{Question 9: How would you modify the above procedure when the
+target causal parameter is a MSM with effect modification (Section
+9)?}\label{question-9-how-would-you-modify-the-above-procedure-when-the-target-causal-parameter-is-a-msm-with-effect-modification-section-9}
+
+\begin{frame}{Including Baseline Covariates in the Model}
+
+\vspace{3mm} If effect modification by baseline covariates \(V\) (a
+subset of \(L(t)\)) is of interest to the target causal parameter,
+inclusion of those baseline characteristics in the MSM allows for their
+incorporation into the counterfactual pseudopopulations.
+
+\vspace{3mm} Therefore, we want to condition on baseline covariates
+\(V\) in our model, where the model is now: \vspace{-6mm}
+
+\begin{align*}
+E[Y_{\bar{a}}|V] = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=0}^1a(t) + \beta_2V + \beta_3\sum_{t=0}^1a(t) \times V
+\end{align*}
+
+\vspace{3mm} The choice of numerator in the MSM changes the target
+parameter being measured, and the stabilized weights can be improved:
+\vspace{-5mm}
+
+\begin{align*}
+\hat{sw}_\mathnormal{i} = \frac{g_n(\bar{A}_\mathnormal{i}(1)|V_i)}{\prod_{t=0}^1g_n(A_\mathnormal{i}(t)|\bar{A}(t-1), \bar{L}_\mathnormal{i}(t))}\\
+\end{align*}
+
+\end{frame}
+
+\end{document}
