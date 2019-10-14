@@ -85,19 +85,16 @@ If effect modification by baseline covariates $V$ (a subset of $L(t)$) is of int
 \vspace{3mm}
 Therefore, we want to condition on baseline covariates $V$ in our model, where the model is now:
 \vspace{-6mm}
+\fontsize{10}{20}
 \begin{align*}
-E[Y_{\bar{a}}|V] = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=0}^1a(t) + \beta_2V + \beta_3\sum_{t=0}^1a(t) \times V
+logit(Pr[Y_{\bar{a}}|V]) = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=1}^Ka(t) + \beta_2V + \beta_3\sum_{t=1}^Ka(t) \times V
 \end{align*}
-
-<!-- I'm not sure (hence the commenting out) but should this equation actually be the logit? and t from 0 to K?:
-logit(p[Y_{\bar{a}}|V]) = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=0}^Ka(t) + \beta_2V + \beta_3\sum_{t=0}^Ka(t) \times V
--->
 
 \vspace{3mm}
 The choice of numerator in the MSM changes the target parameter being measured, and the stabilized weights can be improved:
 \vspace{-5mm}
 \begin{align*}
-\hat{sw}_\mathnormal{i} = \frac{g_n(\bar{A}_\mathnormal{i}(1)|V_i)}{\prod_{t=0}^1g_n(A_\mathnormal{i}(t)|\bar{A}(t-1), \bar{L}_\mathnormal{i}(t))}\\
+\hat{sw}_\mathnormal{i} = \frac{g_n(\bar{A}_\mathnormal{i}(K)|V_i)}{\prod_{t=1}^Kg_n(A_\mathnormal{i}(t)|\bar{A}(t-1), \bar{L}_\mathnormal{i}(t))}\\
 \end{align*}
 
 <!-- 
