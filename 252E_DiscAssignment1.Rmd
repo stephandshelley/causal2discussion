@@ -6,6 +6,114 @@ output:
   beamer_presentation: default
 ---
 
+
+# Question 8: Give a detailed implementation of longitudinal IPTW to estimate parameters of an MSM without effect modifiers (Section 7-8).
+
+## Implementing the Estimator
+
+The stabilized weights for a marginal structural model are:
+<!--Lecture 4, slide 37, also discussion paper, eqn 14-->
+
+$sw_i = \frac{\prod_{k=0}^K g_n(A_k= a_{ki})}{\prod_{k=0}^K g_n(A_k= a_{ki} | \bar{A}_{k-1} = \bar{a}_{(k-1)i}, \bar{L}_k = \bar{l}_{ki})}$
+
+
+
+## Step 1: Calculate appropriate stabilized weights 
+
+
+### Part A: 
+Estimate the probability of receiving treatment, based on prior treatment and covariates using correctly specified parametric regression models (logistic regression) to get the denominator of the weights.
+
+* Often you might assume a parsimonious model such as: $logit p[Y_{\bar{a}} = 1] = \beta_0 + \beta_1 cum(\bar{a})$
+
+* **In this example** we are estimating the probability of being treated with AZT at each time point, given the covariate pattern and the prior history of AZT treatment, and the authors use this model: 
+
+$logit p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_k = \bar{l}_{k})] = \alpha_0 + \alpha_1k + \alpha_2a_{k-1} + \alpha_3a_{k-2} + \alpha_4l_k + \alpha_4l_{k-1} + \alpha_5l_{k-1} + \alpha_6a_{k-1}l_k + \alpha_7l_0$
+
+Where $l_k$ is the vector of CD4 count, WBC, hematocrit and symptoms
+
+
+
+## Step 1: Calculate appropriate stabilized weights 
+
+### Part B:
+Estimate the probability of receiving treatment, based on prior treatment (but NOT covariates) to get the numerator of the weights.
+
+**In this example** We simply remove those terms from the model that depended on l, our covariates, resulting in this model:
+
+$logit p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}] = \alpha_0^* + \alpha_1^*k + \alpha_2^*a_{k-1} + \alpha_3^*a_{k-2}$
+
+## Step 1: Calculate appropriate stabilized weights 
+
+### Part C:
+Predict each subject's probability of the entire exposure history, from each of the models (based on either ONLY exposure history or exposure history PLUS covariates). Those predicted values are then plugged in to this equation to get the stabilized weight for each subject, i. **In this example** we are estimating the probability of their entire AZT treatment hitory pattern.
+
+
+If we say that $\rho_{ki}$ is the probability of treatment for the ith subject at time k, then each subject's weight is:
+
+
+
+## Step 2: Take the weighted average of observed outcomes across the population 
+
+\vspace{3mm}
+
+The Horvitz-Thompson IPTW estimator for $\Psi^F\left(P_{U,X}\right)$ is:
+\begin{align*}
+\hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
+\end{align*}
+
+The Modified or Stabilized Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,X}\right)$ is:
+
+\begin{align*}
+\hat{\Psi}(P_n) & =\dfrac{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i}{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}}\\
+\end{align*}
+
+
+# Question 9: How would you modify the above procedure when the target causal parameter is a MSM with effect modification (Section 9)?
+
+## Including Baseline Covariates in the Model
+\vspace{3mm}
+If effect modification by baseline covariates $V$ (a subset of $L(t)$) is of interest to the target causal parameter, inclusion of those baseline characteristics in the MSM allows for their incorporation into the counterfactual pseudopopulations.
+
+\vspace{3mm}
+Therefore, we want to condition on baseline covariates $V$ in our model, where the model is now:
+\vspace{-6mm}
+\begin{align*}
+E[Y_{\bar{a}}|V] = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=0}^1a(t) + \beta_2V + \beta_3\sum_{t=0}^1a(t) \times V
+\end{align*}
+
+\vspace{3mm}
+The choice of numerator in the MSM changes the target parameter being measured, and the stabilized weights can be improved:
+\vspace{-5mm}
+\begin{align*}
+\hat{sw}_\mathnormal{i} = \frac{g_n(\bar{A}_\mathnormal{i}(1)|V_i)}{\prod_{t=0}^1g_n(A_\mathnormal{i}(t)|\bar{A}(t-1), \bar{L}_\mathnormal{i}(t))}\\
+\end{align*}
+
+<!-- 
+# Question 1: Specify the question(s) of interest
+
+# Question 2: For the AZT example, specify the longitudinal causal model $\mathcal{M}^F$. ( See Lecture 1 for help.) What is the corresponding DAG?
+
+# Question 3: Specify the counterfactuals of interest. How are these counterfactuals generated using an NPSEM?
+
+# Question 4: Specify the target causal parameters. Discuss their interpretation.
+
+# Question 5: What are the observed data? What is the link between the observed data and the structural causal model $\mathcal{M}^F$? Do we place any restrictions on theobserved data model $\mathcal{M}$?
+
+# Question 6: Identifiability and the statistical estimand
+
+## (a) Consider a single time point intervention. Discuss the assumptions needed to identify the average treatment effect $E_{U,X}(Y_1 -Y_0)$ from the observed data distribution.Discuss the backdoor criteria. (See Lecture Notes from 252D for a refresher.)
+
+## (b) Consider a longitudinal setting and the following DAG. Can you specify a set of covariates that satisfy the backdoor criteria to identify the expected counterfactual outcome $E_{U,X}(Y_{\bar{a}})$ under a joint intervention on A_0 and A_1?
+
+## (c) What alternative identifiability assumptions would be sufficient in this case? What statistical estimand is equal to $E_{U,X}(Y_{\bar{a}})$ under this assumption?
+
+# Question 7: What is the intuition behind longitudinal IPTW?
+
+In general, with IPTW, the idea is that some pattern of covariates can predict the probability of having received the exposure. But because the covariates are related to exposure, some covariate-exposure combinations will be over-represented in the data and some will be under-represented. By upweighting the contributions of the under-represented exposure combinations (and vice-versa) we can approximate the data that would result from a randomized controlled trial. In the longitudinal setting specifically, the individuals who are upweighted are those whose *entire* exposure history is rare. 
+
+-->
+<!-- 
 # Question 8: Give a detailed implementation of longitudinal IPTW to estimate parameters of an MSM without effect modifiers (Section 7-8).
 
 ## Implementing the Horvitz-Thompson Estimator
@@ -17,9 +125,6 @@ The Horvitz-Thompson IPTW estimator for $\Psi^F\left(P_{U,X}\right)$ is:
 \hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
 \end{align*}
 
-<!-- FYI for Sabrina- marking something like this turns it into a comment ;) -->
-
-<!--I took what you had started and tweaked the formulas slightly + added example summaries following her example in the lecture slides (lecture 4, slides 20- )-->
 
 ## Step 1: Calculate appropriate stabilized weights using the modified Horvitz-Thomas estimator
 
@@ -84,23 +189,26 @@ The Modified or Stabilized Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,
 \begin{align*}
 \hat{\Psi}(P_n) & =\dfrac{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i}{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}}\\
 \end{align*}
+-->
 
-# Question 9: How would you modify the above procedure when the target causal parameter is a MSM with effect modification (Section 9)?
+<!-- 
+# Question 10: How does censoring change (a) the scientific question, (b) the causal model $\mathcal{M}^F$, (c) the counterfactuals and target causal parameter, (d) the observed data, (e) identifiability and (f) estimation
 
-## Including Baseline Covariates in the Model
-\vspace{3mm}
-If effect modification by baseline covariates $V$ (a subset of $L(t)$) is of interest to the target causal parameter, inclusion of those baseline characteristics in the MSM allows for their incorporation into the counterfactual pseudopopulations.
 
-\vspace{3mm}
-Therefore, we want to condition on baseline covariates $V$ in our model, where the model is now:
-\vspace{-6mm}
-\begin{align*}
-E[Y_{\bar{a}}|V] = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=0}^1a(t) + \beta_2V + \beta_3\sum_{t=0}^1a(t) \times V
-\end{align*}
+# Question 11: In Section 11, the authors note "our IPTW estimators will be biased and thus MSMs should not be used in studies in which at each time k there is a covariate level $l_k$ such that all subjects with that level of the covariate are certain to receive the identical treatment $a_k$". What assumption are the authors referring to?
 
-\vspace{3mm}
-The choice of numerator in the MSM changes the target parameter being measured, and the stabilized weights can be improved:
-\vspace{-5mm}
-\begin{align*}
-\hat{sw}_\mathnormal{i} = \frac{g_n(\bar{A}_\mathnormal{i}(1)|V_i)}{\prod_{t=0}^1g_n(A_\mathnormal{i}(t)|\bar{A}(t-1), \bar{L}_\mathnormal{i}(t))}\\
-\end{align*}
+They are referring to the positivity assumption. In order for IPTW estimators to be unbiased, the probability of exposure for any given set of covariates should be neither close to zero nor to 1. If a covariate *l* determines treatment, then this will be a practical positivity violation as all individuals with a specific value of $l_k$ will get the treatment (ie.probability will be one) and all individuals with other value(s) of $l_k$ will not get the treatment (ie. probability will be zero).
+
+
+#Question 12: What are some potential advantages or disadvantages to longitudinal IPTW?
+
+## Advantages:
+* Allows us to use confounded observational data to approximate data wherein the exposure was randomized.
+
+## Disadvantages:
+* It has high variance compared to alternative methods.
+* It is easy to run into ositivity violations or near violations, which leadsto a biased estimator. Because the weights are the inverse of the product of the probabilities, if there are many time points even moderately small probabilities can end up producing quite large weights once everything is multiplied through. (Stablizing the weights does help.)
+* Relies on consistent estimation of the probabilities, often using parametric models. If model is misspecified, the parameter can be biased.
+
+
+-->
