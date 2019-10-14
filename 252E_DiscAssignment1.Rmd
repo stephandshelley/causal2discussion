@@ -105,21 +105,22 @@ While we can use a variety of predicted values in the numerator, ultimately we w
 How does detectability of HIV RNA in patients' blood vary as a function of the cumulative AZT dose history?
 
 # Question 2: For the AZT example, specify the longitudinal causal model $\mathcal{M}^F$. ( See Lecture 1 for help.) What is the corresponding DAG?
-
+*Complete
 Structural Causal Model
-O={L(0), L(1), A(0), A(1), Y(2)}
-$\bar_L(k)$ = all measured risk factors for Y (CD4 count, age, white blood count, hematocrit, AIDS diagnosis, symptoms
+O={\bar{L}(k), \bar{A}(k), Y(k+1)}
+$\bar_L(k)$ = all measured risk factors for Y (CD4 count, age, white blood count, hematocrit, AIDS diagnosis, symptoms)
 $\bar_A(k)$ = AZT dosage (100mg)
-Y(K+1) = HIV RNA detected in blood
+Y(k+1) = HIV RNA detected in blood
 
-just do general L and A and Y, all t should be k
-$\bar_L(k)$ = f_{L(k)}(\bar{U_{L(t)}}, \bar{A}(k-1), \bar{L}(k))
-$\bar_A(k)$ = f_{A(k)}(\bar{U_{A(t)}}, \bar{A}(k-1), \bar{L}(k))
-Y(3) = f_{Y(k+1)}(\bar{U_{Y(t+1)}}, \bar{A}(k), \bar{L}(k))
 
-The DAG is represented as Figure 1a in the article 
+$\bar_L(k)$ = f_{L(k)}(\bar{U_{L(k)}}, \bar{A}(k-1), \bar{L}(k-1))
+$\bar_A(k)$ = f_{A(k)}(\bar{U_{A(k)}}, \bar{A}(k-1), \bar{L}(k))
+Y(k+1) = f_{Y(k+1)}(\bar{U_{Y(k+1)}}, \bar{A}(k), \bar{L}(k))
+
+The DAG is represented as Figure 1a in the article. 
 
 # Question 3: Specify the counterfactuals of interest. How are these counterfactuals generated using an NPSEM?
+*complete
 Our counterfactuals of interest are the values of $Y_{\bar{a_k}}$ we would have observed if $A_0$ had been set to values 0, 1, 2, 3,...15 at each time point, all the 16 possible AZT doses at each time point. We are able to generate these counterfactuals by plugging in every combination of treatment level across all time points and observing the outcome for each. 
 
 
@@ -146,17 +147,23 @@ There are no restrictions on the observed data model M.
 # Question 6: Identifiability and the statistical estimand
 
 ## (a) Consider a single time point intervention. Discuss the assumptions needed to identify the average treatment effect $E_{U,X}(Y_1 -Y_0)$ from the observed data distribution. Discuss the backdoor criteria. (See Lecture Notes from 252D for a refresher.)
-In order to identify the average treatment effect from the observed data distribution in a single point treatment context, we would need to verify the randomization assumptions (that $\bar{a(t)}|L$ is independent of Y, the independence assumption (met by conditioning on L so that all U's (U_A independent of U_Y and U_L is independent of U_Y) are independent of one another), and the positivity assumption min_aEA P(A=a|L)>0. 
+In order to identify the average treatment effect from the observed data distribution in a single point treatment context, we would need to verify the randomization assumption (that $\bar{a(t)}|L$ is independent of Y), the independence assumption (met by conditioning on L so that U_A is independent of U_Y and U_L is independent of U_Y), and the positivity assumption (\min_{aEA} P(A=a|L)>0). 
 
 The backdoor criteria are: 
 1. All spurious sources of association between A and Y are blocked
 2. No new spurious associations are created (no colliders are conditioned upon)
 3. No part of the causal pathway between A and Y are conditioned upon (we are not conditioning on a factor on the causal pathway between A and Y). 
-In this example,  
+
+In this example of a point treatment setting, if we condition on L we would close all backdoor paths between A and Y without conditioning on a collider or mediator.   
 
 ## (b) Consider a longitudinal setting and the following DAG. Can you specify a set of covariates that satisfy the backdoor criteria to identify the expected counterfactual outcome $E_{U,X}(Y_{\bar{a}})$ under a joint intervention on A_0 and A_1?
 
+No, we do not have a set of covariates to satisfy the backdoor criteria. If we want to intervene on A(0) and A(1) simultaneously and we try to condition on L(0) and L(1), we would ....If you condition on just L(1) this happens, and if you do just L(2)....
+
 ## (c) What alternative identifiability assumptions would be sufficient in this case? What statistical estimand is equal to $E_{U,X}(Y_{\bar{a}})$ under this assumption?
+Siguential backdoor criteria and positivity 
+See pic 
+
 
 # Question 7: What is the intuition behind longitudinal IPTW?
 
