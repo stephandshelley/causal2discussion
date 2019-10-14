@@ -14,7 +14,11 @@ output:
 The stabilized weights for a marginal structural model are:
 <!--Lecture 4, slide 37, also discussion paper, eqn 14-->
 
-$sw_i = \frac{\prod_{k=0}^K g_n(A_k= a_{ki})}{\prod_{k=0}^K g_n(A_k= a_{ki} | \bar{A}_{k-1} = \bar{a}_{(k-1)i}, \bar{L}_k = \bar{l}_{ki})}$
+\vspace{8mm}
+
+\begin{align*}
+sw_i = \frac{\prod_{k=0}^K g_n(A_k= a_{ki})}{\prod_{k=0}^K g_n(A_k= a_{ki} | \bar{A}_{k-1} = \bar{a}_{(k-1)i}, \bar{L}_k = \bar{l}_{ki})}
+\end{align*}
 
 
 
@@ -24,13 +28,15 @@ $sw_i = \frac{\prod_{k=0}^K g_n(A_k= a_{ki})}{\prod_{k=0}^K g_n(A_k= a_{ki} | \b
 ### Part A: 
 Estimate the probability of receiving treatment, based on prior treatment and covariates using correctly specified parametric regression models (logistic regression) to get the denominator of the weights.
 
-* Often you might assume a parsimonious model such as: $logit p[Y_{\bar{a}} = 1] = \beta_0 + \beta_1 cum(\bar{a})$
-
 * **In this example** we are estimating the probability of being treated with AZT at each time point, given the covariate pattern and the prior history of AZT treatment, and the authors use this model: 
 
-$logit p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_k = \bar{l}_{k})] = \alpha_0 + \alpha_1k + \alpha_2a_{k-1} + \alpha_3a_{k-2} + \alpha_4l_k + \alpha_4l_{k-1} + \alpha_5l_{k-1} + \alpha_6a_{k-1}l_k + \alpha_7l_0$
+\begin{align*}
+logit (p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_k = \bar{l}_{k})]) &= \alpha_0 + \alpha_1k + \alpha_2a_{k-1} + \alpha_3a_{k-2} \\
+& + \alpha_4l_k + \alpha_4l_{k-1} + \alpha_5l_{k-1} + \alpha_6a_{k-1}l_k \\
+& + \alpha_7l_0 \\
+\end{align*}
 
-Where $l_k$ is the vector of CD4 count, WBC, hematocrit and symptoms
+Where $l_k$ is the covariate vector.
 
 
 
@@ -39,34 +45,30 @@ Where $l_k$ is the vector of CD4 count, WBC, hematocrit and symptoms
 ### Part B:
 Estimate the probability of receiving treatment, based on prior treatment (but NOT covariates) to get the numerator of the weights.
 
-**In this example** We simply remove those terms from the model that depended on l, our covariates, resulting in this model:
+* **In this example** We simply remove those terms from the model that depended on l, our covariates, resulting in this model:
 
-$logit p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}] = \alpha_0^* + \alpha_1^*k + \alpha_2^*a_{k-1} + \alpha_3^*a_{k-2}$
+\begin{align*}
+logit p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}] = \alpha_0^* + \alpha_1^*k + \alpha_2^*a_{k-1} + \alpha_3^*a_{k-2}
+\end{align*}
 
 ## Step 1: Calculate appropriate stabilized weights 
 
 ### Part C:
-Predict each subject's probability of the entire exposure history, from each of the models (based on either ONLY exposure history or exposure history PLUS covariates). Those predicted values are then plugged in to this equation to get the stabilized weight for each subject, i. **In this example** we are estimating the probability of their entire AZT treatment hitory pattern.
+Predict each subject's probability of the entire exposure history, from each of the models (based on either ONLY exposure history or exposure history PLUS covariates). Those predicted values are then plugged in to this equation to get the stabilized weight for each subject, i. 
+
+* **In this example** we are estimating the probability of their entire AZT treatment hitory pattern.
 
 
-If we say that $\rho_{ki}$ is the probability of treatment for the ith subject at time k, then each subject's weight is:
+* Say that $\rho_{ki}$ is the probability of treatment for the ith subject at time k given exposure and covariates, but $\rho_{ki}^*$ is the probability of treatment for the ith subject at time k given exposure history only. Then each subject's weight is:
 
-
+\begin{align*}
+sw_i = \frac{\prod_{k=1}^K(\rho_{ki}^*)^{a_{ki}}(1-\rho_{ki}^*)^{1-a_{ki}}}{\prod_{k=1}^K(\rho_{ki})^{a_{ki}}(1-\rho_{ki})^{1-a_{ki}}}
+\end{align*}
 
 ## Step 2: Take the weighted average of observed outcomes across the population 
 
-\vspace{3mm}
+Here we are trying to get our estimate of the $\beta$ using the stabilized weights we calculated before.
 
-The Horvitz-Thompson IPTW estimator for $\Psi^F\left(P_{U,X}\right)$ is:
-\begin{align*}
-\hat{\Psi}(P_n) & =\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i\\
-\end{align*}
-
-The Modified or Stabilized Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,X}\right)$ is:
-
-\begin{align*}
-\hat{\Psi}(P_n) & =\dfrac{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}Y_i}{\frac{1}{n}\sum_{i=1}^n\frac{\mathbb{I}[\bar{A}_i(t)=\bar{a}]}{g_n(A_i(0)|L_i(0))\times g_n(A_i(1)|A_i(0), L_i(0), L_i(1))}}\\
-\end{align*}
 
 
 # Question 9: How would you modify the above procedure when the target causal parameter is a MSM with effect modification (Section 9)?
