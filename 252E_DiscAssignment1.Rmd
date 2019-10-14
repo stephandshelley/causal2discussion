@@ -88,7 +88,7 @@ Therefore, we want to condition on baseline covariates $V$ in our model, where t
 \begin{align*}
 &logit(Pr[Y_{\bar{a}_k}|V]) = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=0}^Ka(t) + \beta_2V + \beta_3\sum_{t=0}^Ka(t) \times V \\
 &\text{and the working model is now:} \\
-&\beta(P_{U,X}|m) = \underset{\beta}{\operatorname{argmin}} \ E_{U,X}[\sum_{\bar{a} \in \mathcal{A}} \ (Y_{\bar{a}} - m(\bar{a}|\beta))^2] \\
+&\beta(P_{U,X}|m) = \underset{\beta}{\operatorname{argmin}} \ E_{U,X}[\sum_{\bar{a} \in \mathcal{A}} \ (Y_{\bar{a}} - m(\bar{a}, V |\beta))^2] \\
 \end{align*}
 
 ## Including Baseline Covariates in the Model
