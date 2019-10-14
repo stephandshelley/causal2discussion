@@ -149,11 +149,17 @@ The backdoor criteria are:
 1. All spurious sources of association between A and Y are blocked
 2. No new spurious associations are created (no colliders are conditioned upon)
 3. No part of the causal pathway between A and Y are conditioned upon (we are not conditioning on a factor on the causal pathway between A and Y). 
-In this example,  
+
+In this example of a point treatment setting, if we condition on L we would close all backdoor paths between A and Y without conditioning on a collider or mediator.   
 
 ## (b) Consider a longitudinal setting and the following DAG. Can you specify a set of covariates that satisfy the backdoor criteria to identify the expected counterfactual outcome $E_{U,X}(Y_{\bar{a}})$ under a joint intervention on A_0 and A_1?
 
+No, we do not have a set of covariates to satisfy the backdoor criteria. If we want to intervene on A(0) and A(1) simultaneously and we try to condition on L(0) and L(1), we would ....If you condition on just L(1) this happens, and if you do just L(2)....
+
 ## (c) What alternative identifiability assumptions would be sufficient in this case? What statistical estimand is equal to $E_{U,X}(Y_{\bar{a}})$ under this assumption?
+Siguential backdoor criteria and positivity 
+See pic 
+
 
 # Question 7: What is the intuition behind longitudinal IPTW?
 
