@@ -6,7 +6,6 @@ output:
   beamer_presentation: default
 ---
 
-
 # Question 8: Give a detailed implementation of longitudinal IPTW to estimate parameters of an MSM without effect modifiers (Section 7-8).
 
 ## Implementing the Estimator
@@ -83,19 +82,23 @@ $\beta_1$ from this model is then our MSM IPTW estimate.
 If effect modification by baseline covariates $V$ (a subset of $L(t)$) is of interest to the target causal parameter, inclusion of those baseline characteristics in the MSM allows for their incorporation into the counterfactual pseudopopulations.
 
 \vspace{3mm}
-Therefore, we want to condition on baseline covariates $V$ in our model, where the model is now:
+Therefore, we want to condition on baseline covariates $V$ in our model, where the true model is now:
 \vspace{-6mm}
 \fontsize{10}{20}
 \begin{align*}
-logit(Pr[Y_{\bar{a}}|V]) = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=1}^Ka(t) + \beta_2V + \beta_3\sum_{t=1}^Ka(t) \times V
+&logit(Pr[Y_{\bar{a}_k}|V]) = m(\bar{a},V|\beta) = \beta_0 + \beta_1\sum_{t=0}^Ka(t) + \beta_2V + \beta_3\sum_{t=0}^Ka(t) \times V \\
+&\text{and the working model is now:} \\
+&\beta(P_{U,X}|m) = \underset{\beta}{\operatorname{argmin}} \ E_{U,X}[\sum_{\bar{a} \in \mathcal{A}} \ (Y_{\bar{a}} - m(\bar{a}|\beta))^2] \\
 \end{align*}
 
-\vspace{3mm}
+## Including Baseline Covariates in the Model
 The choice of numerator in the MSM changes the target parameter being measured, and the stabilized weights can be improved:
 \vspace{-5mm}
 \begin{align*}
 \hat{sw}_\mathnormal{i} = \frac{g_n(\bar{A}_\mathnormal{i}(K)|V_i)}{\prod_{t=1}^Kg_n(A_\mathnormal{i}(t)|\bar{A}(t-1), \bar{L}_\mathnormal{i}(t))}\\
 \end{align*}
+
+While we can use a variety of predicted values in the numerator, ultimately we want the one that is going to make the weights closest to one (i.e. the numerator has as many overlapping factors with the denominator as possible, so that most terms in the fraction cancel out). 
 
 <!-- 
 # Question 1: Specify the question(s) of interest
