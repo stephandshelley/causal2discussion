@@ -246,11 +246,11 @@ The Modified or Stabilized Horvitz-Thompson IPTW estimator for $Psi^F\left(P_{U,
 
 The article suggests that censoring be considered as an additional time-varying treatment. This causes the following changes:
 * the scientific question: does not change
-* the causal model: add an indicator $C_k$ at each time point, which is equal to 1 if the subject was censored
-* the counterfactuals: the counterfactual outcomes must now include both that the subject followed a particular treatment regimen ($\bar{a}$) and that they were never censored ($\bar{C}=0$).
-* the causal parameter: the same as previous, but with the addition to the counterfactuals noted above.
+* the causal model: add an indicator $C_k$ at each time point, which is an indicator of whether the outcome was observed at time k, and is equal to 1 if the subject was censored
+* the counterfactuals: the counterfactual outcomes must now include both that the subject followed a particular treatment regimen ($\bar{a}$) and that they were never censored ($\bar{C}=0$),so the counterfactuals are $Y(\bar{A}(t)= \bar{a}(t), \bar{C}(K)=0$
+* the causal parameter: the same as previous, but with the addition to the counterfactuals noted above. So the parameter is $\psi^F (\mathcal{P}_{U,X})= E_{U,X}(Y_{\bar{a}, \bar{C}=0})$
 * the observed data:  presumably if there is censoring some subjects will be missing data at later time points
-* identifiability: we must assume that there are no unmeasured factors in common for $A_k$ and $C_k$ for all values of k
+* identifiability: we must assume that there are no unmeasured factors in common for $A_k$ and $C_k$ for all values of k, and that censoring is independent of the outcome Y at all times t.
 * estimation: it is now an inverse-probability-of-treatment-and-censoring estimator.
 
 
