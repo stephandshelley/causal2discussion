@@ -54,9 +54,9 @@ logit p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}] = \alpha_0^* + \alpha_1^*k + \al
 ## Step 1: Calculate appropriate stabilized weights 
 
 ### Part C:
-Predict each subject's probability of the entire exposure history, from each of the models (based on either ONLY exposure history or exposure history PLUS covariates). Those predicted values are then plugged in to this equation to get the stabilized weight for each subject, i. 
+Predict each subject's probability of the entire exposure history, from each of the models (based on either ONLY exposure history or exposure history PLUS covariates). Those predicted values are then plugged into this equation to get the stabilized weight for each subject, i. 
 
-* **In this example** we are estimating the probability of their entire AZT treatment hitory pattern.
+* **In this example** we are estimating the probability of their entire AZT treatment history pattern.
 
 
 * Say that $\rho_{ki}$ is the probability of treatment for the ith subject at time k given exposure and covariates, but $\rho_{ki}^*$ is the probability of treatment for the ith subject at time k given exposure history only. Then each subject's weight is:
@@ -80,7 +80,7 @@ $\beta_1$ from this model is then our MSM IPTW estimate.
 
 ## Including Baseline Covariates in the Model
 \vspace{3mm}
-If effect modification by baseline covariates $V$ (a subset of $L(t)$) is of interest to the target causal parameter, inclusion of those baseline characteristics in the MSM allows for their incorporation into the counterfactual pseudopopulations.
+If effect modification by baseline covariates $V$ (a subset of $L(t)$) is of interest to the target causal parameter, inclusion of those baseline characteristics in the MSM allows for their incorporation into the counterfactual pseudo-populations.
 
 \vspace{3mm}
 Therefore, we want to condition on baseline covariates $V$ in our model, where the model is now:
