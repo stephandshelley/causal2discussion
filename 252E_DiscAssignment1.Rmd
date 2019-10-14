@@ -32,7 +32,7 @@ Estimate the probability of receiving treatment, based on prior treatment and co
 
 \begin{align*}
 logit (p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_k = \bar{l}_{k})]) &= \alpha_0 + \alpha_1k + \alpha_2a_{k-1} + \alpha_3a_{k-2} \\
-& + \alpha_4l_k + \alpha_4l_{k-1} + \alpha_5l_{k-1} + \alpha_6a_{k-1}l_k \\
+& + \alpha_4l_k + \alpha_4l_{k-1} + \alpha_5l_{k-2} + \alpha_6a_{k-1}l_k \\
 & + \alpha_7l_0 \\
 \end{align*}
 
