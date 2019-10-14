@@ -99,56 +99,57 @@ The choice of numerator in the MSM changes the target parameter being measured, 
 
 <!-- 
 # Question 1: Specify the question(s) of interest
-How does detectability of HIV RNA in patients' blood vary as a function of AZT dose history?
+How does detectability of HIV RNA in patients' blood vary as a function of the cumulative AZT dose history?
 
 # Question 2: For the AZT example, specify the longitudinal causal model $\mathcal{M}^F$. ( See Lecture 1 for help.) What is the corresponding DAG?
 
 Structural Causal Model
 O={L(0), L(1), A(0), A(1), Y(2)}
-L-bar = all measured risk factors for Y (CD4 count, age, white blood count, hematocrit, AIDS diagnosis, symptoms
-A-bar = AZT dosage (100mg)
-Y = HIV RNA detected in blood
+$\bar_L(k)$ = all measured risk factors for Y (CD4 count, age, white blood count, hematocrit, AIDS diagnosis, symptoms
+$\bar_A(k)$ = AZT dosage (100mg)
+Y(K+1) = HIV RNA detected in blood
 
-U
+just do general L and A and Y, all t should be k
+$\bar_L(k)$ = f_{L(k)}(\bar{U_{L(t)}}, \bar{A}(k-1), \bar{L}(k))
+$\bar_A(k)$ = f_{A(k)}(\bar{U_{A(t)}}, \bar{A}(k-1), \bar{L}(k))
+Y(3) = f_{Y(k+1)}(\bar{U_{Y(t+1)}}, \bar{A}(k), \bar{L}(k))
 
-L(1) =fL(UL(1)) 
-A(1) = fA(UA(1), L(1))
-L(2) = fL(UL(2), A(1), L(1))
-A(2) = fA(UA(2), A(1), L(1), L(2))
-=f(U, A(2), A(1), L(2), L(1))
-Y(3) = fY(UY, A(2), A(1), L(2), L(1), )
-
+The DAG is represented as Figure 1a in the article 
 
 # Question 3: Specify the counterfactuals of interest. How are these counterfactuals generated using an NPSEM?
-Our counterfactuals of interest are the values of $Y_{a(t)}$ we would have observed if $A_0$ had been set to values 0, 1, 2, 3,...15 at each time point, all the 16 possible AZT doses at each time point. We are able to generate these counterfactuals using a parsimonious dose-response relationship specified in a linear logistic marginal structural model: 
+Our counterfactuals of interest are the values of $Y_{\bar{a_k}}$ we would have observed if $A_0$ had been set to values 0, 1, 2, 3,...15 at each time point, all the 16 possible AZT doses at each time point. We are able to generate these counterfactuals by plugging in every combination of treatment level across all time points and observing the outcome for each. 
+
+
+
+# Question 4: Specify the target causal parameters. Discuss their interpretation
+*COMPLETE
+The target causal parameter is given by the following marginal structural model: 
+
 \begin{align}
-logit pr[Y_{\bar{a_0}} =1] = \beta_0 + \beta_1\sum_{t=1}^Ka(t)
+E(Y_{\bar{a_k}})=m(\bar{a}|\beta= \beta_0 + \beta_1\sum_{t=1}^ka(t)
 \end{align}
 
+Our target causal parameter is $\beta_1$ so that we can calculate $e^\beta_1$ which would give us the causal OR for HIV RNA detection associated with an increasing AZT dose of 100mg. $\beta_1$ represents the causal parameter if the relationship between AZT dose and HIV RNA is unconfounded by measured or unmeasured factors.  
 
-# Question 4: Specify the target causal parameters. Discuss their interpretation.
-\begin{align}
-E(Y_{\bar{a}})=m(\bar{a}|\beta= \beta_0 + \beta_1\sum_{t=1}^ka(t)
-\end{align}
+# Question 5: What are the observed data? What is the link between the observed data and the structural causal model $\mathcal{M}^F$? Do we place any restrictions on the observed data model $\mathcal{M}$?
 
-Our target causal parameter is $E(Y_{\bar{a}})$ which is defined by the above equation. In this model, $e^\beta_1$ is the parameter that would give us the causal OR for HIV RNA detection associated with an increasing AZT dose of 100mg. $\beta_1$ represents the causal parameter if the relationship between AZT dose and HIV RNA is unconfounded by measured or unmeasured factors.  
+N i.i.d. copies of $O=(\bar{A(t)}, \bar{L(t)})~P_0$ 
 
-# Question 5: What are the observed data? What is the link between the observed data and the structural causal model $\mathcal{M}^F$? Do we place any restrictions on theobserved data model $\mathcal{M}$?
+$\mathcal{M}^F$ contains the distribution of $\mathcal{M}$  
+Probability of observing our data (P0) is in the scm
 
-\begin{align}
-\Psi^F(P_{U,X}) = \Psi(P_0)
-O=(\bar{A(t)}, \bar{L(t)})~P_0
+There are no restrictions on the observed data model M. 
 
 # Question 6: Identifiability and the statistical estimand
 
 ## (a) Consider a single time point intervention. Discuss the assumptions needed to identify the average treatment effect $E_{U,X}(Y_1 -Y_0)$ from the observed data distribution. Discuss the backdoor criteria. (See Lecture Notes from 252D for a refresher.)
-In order to identify the average treatment effect from the observed data distribution, we would need to verify the randomization assumptions (that $\bar{a(t)}$ is independent of Y), that all backdoor paths are closed between A and Y, and the positivity assumption. 
+In order to identify the average treatment effect from the observed data distribution in a single point treatment context, we would need to verify the randomization assumptions (that $\bar{a(t)}|L$ is independent of Y, the independence assumption (met by conditioning on L so that all U's (U_A independent of U_Y and U_L is independent of U_Y) are independent of one another), and the positivity assumption min_aEA P(A=a|L)>0. 
 
 The backdoor criteria are: 
 1. All spurious sources of association between A and Y are blocked
 2. No new spurious associations are created (no colliders are conditioned upon)
 3. No part of the causal pathway between A and Y are conditioned upon (we are not conditioning on a factor on the causal pathway between A and Y). 
-In this example, 
+In this example,  
 
 ## (b) Consider a longitudinal setting and the following DAG. Can you specify a set of covariates that satisfy the backdoor criteria to identify the expected counterfactual outcome $E_{U,X}(Y_{\bar{a}})$ under a joint intervention on A_0 and A_1?
 
