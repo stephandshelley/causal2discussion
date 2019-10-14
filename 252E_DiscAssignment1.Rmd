@@ -157,7 +157,7 @@ In this example,
 
 # Question 7: What is the intuition behind longitudinal IPTW?
 
-In general, with IPTW, the idea is that some pattern of covariates can predict the probability of having received the exposure. But because the covariates are related to exposure, some covariate-exposure combinations will be over-represented in the data and some will be under-represented. By upweighting the contributions of the under-represented exposure combinations (and vice-versa) we can approximate the data that would result from a randomized controlled trial. In the longitudinal setting specifically, the individuals who are upweighted are those whose *entire* exposure history is rare. 
+In general, with IPTW, the idea is that some pattern of covariates can predict the probability of having received the exposure. But because the covariates are related to exposure, some covariate-exposure combinations will be over-represented in the data and some will be under-represented. By upweighting the contributions of the under-represented exposure combinations (and vice-versa) we can approximate the data that would result from a randomized controlled trial. In the longitudinal setting specifically, the individuals who are upweighted are those whose *entire* exposure history is rare. An individual's weight is the inverse of the probability that the subject received the treatment that they did.
 
 -->
 
