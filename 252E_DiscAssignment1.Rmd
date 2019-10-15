@@ -8,34 +8,36 @@ output: pdf_document
 How does detectability of HIV RNA in patients' blood vary as a function of the cumulative AZT dose history?
 
 # Question 2: For the AZT example, specify the longitudinal causal model $\mathcal{M}^F$. ( See Lecture 1 for help.) What is the corresponding DAG?
-*Complete
+
 Structural Causal Model
 \begin{align*}
 O={\bar{L}(k), \bar{A}(k), Y(k+1)}
-$\bar_L(k)$ = all measured risk factors for Y (CD4 count, age, white blood count, hematocrit, AIDS diagnosis, symptoms)
-$\bar_A(k)$ = AZT dosage (100mg)
+\bar_L(k) = all measured risk factors for Y (CD4 count, age, white blood count, hematocrit, AIDS diagnosis, symptoms)
+\bar_A(k) = AZT dosage (100mg)
 Y(k+1) = HIV RNA detected in blood
 \end{align*}
 
-$\bar_L(k)$ = f_{L(k)}(\bar{U_{L(k)}}, \bar{A}(k-1), \bar{L}(k-1))
-$\bar_A(k)$ = f_{A(k)}(\bar{U_{A(k)}}, \bar{A}(k-1), \bar{L}(k))
+\begin{align*}
+\bar_L(k) = f_{L(k)}(\bar{U_{L(k)}}, \bar{A}(k-1), \bar{L}(k-1))
+\bar_A(k) = f_{A(k)}(\bar{U_{A(k)}}, \bar{A}(k-1), \bar{L}(k))
 Y(k+1) = f_{Y(k+1)}(\bar{U_{Y(k+1)}}, \bar{A}(k), \bar{L}(k))
+k=0,1
+\end{align*}
 
 The DAG is represented as Figure 1a in the article. 
 
 # Question 3: Specify the counterfactuals of interest. How are these counterfactuals generated using an NPSEM?
-*complete
+
 Our counterfactuals of interest are the values of $Y_{\bar{a_k}}$ we would have observed if $A_0$ had been set to values 0, 1, 2, 3,...15 at each time point, all the 16 possible AZT doses at each time point. We are able to generate these counterfactuals by plugging in every combination of treatment level across all time points and observing the outcome for each. 
 
 
 
 # Question 4: Specify the target causal parameters. Discuss their interpretation
-*COMPLETE
 The target causal parameter is given by the following marginal structural model: 
 
-\begin{align}
+\begin{align*}
 E(Y_{\bar{a_k}})=m(\bar{a}|\beta= \beta_0 + \beta_1\sum_{t=1}^ka(t)
-\end{align}
+\end{align*}
 
 Our target causal parameter is $\beta_1$ so that we can calculate $e^\beta_1$ which would give us the causal OR for HIV RNA detection associated with an increasing AZT dose of 100mg. $\beta_1$ represents the causal parameter if the relationship between AZT dose and HIV RNA is unconfounded by measured or unmeasured factors.  
 
@@ -43,31 +45,29 @@ Our target causal parameter is $\beta_1$ so that we can calculate $e^\beta_1$ wh
 
 N i.i.d. copies of $O=(\bar{A(t)}, \bar{L(t)})~P_0$ 
 
-$\mathcal{M}^F$ contains the distribution of $\mathcal{M}$  
-Probability of observing our data (P0) is in the scm
-
-There are no restrictions on the observed data model M. 
+$\mathcal{M}^F$ contains the distribution of $\mathcal{M}$ and the true distribution $(P_0)$ of O is an element of $\mathcal{M}$. There are no restrictions on the observed data model M. 
 
 # Question 6: Identifiability and the statistical estimand
 
 ## (a) Consider a single time point intervention. Discuss the assumptions needed to identify the average treatment effect $E_{U,X}(Y_1 -Y_0)$ from the observed data distribution. Discuss the backdoor criteria. (See Lecture Notes from 252D for a refresher.)
 In order to identify the average treatment effect from the observed data distribution in a single point treatment context, we would need to verify the randomization assumption (that $\bar{a(t)}|L$ is independent of Y), the independence assumption (met by conditioning on L so that U_A is independent of U_Y and U_L is independent of U_Y), and the positivity assumption (\min_{aEA} P(A=a|L)>0). 
 
-The backdoor criteria are: 
-1. All spurious sources of association between A and Y are blocked
-2. No new spurious associations are created (no colliders are conditioned upon)
-3. No part of the causal pathway between A and Y are conditioned upon (we are not conditioning on a factor on the causal pathway between A and Y). 
+The backdoor criteria are that 1) All spurious sources of association between A and Y are blocked, 2) No new spurious associations are created (no colliders are conditioned upon), and 3) No part of the causal pathway between A and Y are conditioned upon (we are not conditioning on a factor on the causal pathway between A and Y). 
 
-In this example of a point treatment setting, if we condition on L we would close all backdoor paths between A and Y without conditioning on a collider or mediator.   
+In this example of a point treatment setting, if we condition on L we would close all backdoor paths between A and Y without conditioning on a collider or mediator which would satisfy our backdoor criteria.    
 
 ## (b) Consider a longitudinal setting and the following DAG. Can you specify a set of covariates that satisfy the backdoor criteria to identify the expected counterfactual outcome $E_{U,X}(Y_{\bar{a}})$ under a joint intervention on A_0 and A_1?
 
-No, we do not have a set of covariates to satisfy the backdoor criteria. If we want to intervene on A(0) and A(1) simultaneously and we try to condition on L(0) and L(1), we would ....If you condition on just L(1) this happens, and if you do just L(2)....
+No, we do not have a set of covariates to satisfy the backdoor criteria. If we want to have a joint intervention on A(0) and A(1)  and we try to condition on L(0) and L(1), we would be conditioning on a factor (L(1) in this case) that is on the causal pathway from A(0) to Y. If, instead, you condition on just L(0), you leave open the backdoor pathway between A(1) and Y. These show us that both conditioning or not conditioning on L(1) is problematic in the longitudinal setting if you use the strategies we employ in the point-treatment setting. 
 
 ## (c) What alternative identifiability assumptions would be sufficient in this case? What statistical estimand is equal to $E_{U,X}(Y_{\bar{a}})$ under this assumption?
-Siguential backdoor criteria and positivity 
-See pic 
 
+To satisfy the backdoor pathway in the longitudinal setting in which we have a joint intervention on A(0) and A(1), we could employ the sequential backdoor criteria to take care of the problem described in 6b, as well as our randomization and positivity assumptions, in order to identify our target parameter.
+
+The statistical estimand is 
+\begin{align*}
+\Psi(P_0) = \sum_{\bar{l}}(E(Y|\bar{A}=1, \bar{L}=\bar{l}) x P(L(1)=l(1)|A(0)=1, L(0)=l(0)) x P(L(0)=l(0)) - \sum_{\bar{l}}(E(Y|\bar{A}=0, \bar{L}=\bar{l}) x P(L(1)=l(1)|A(0)=0, L(0)=l(0)) x P(L(0)=l(0))
+\end{align*}
 
 # Question 7: What is the intuition behind longitudinal IPTW?
 
