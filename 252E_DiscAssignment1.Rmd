@@ -105,8 +105,6 @@ Where $l_k$ is the covariate vector.
 
 
 
-## Step 1: Calculate appropriate stabilized weights 
-
 ### Part B:
 Estimate the probability of receiving treatment, based on prior treatment (but NOT covariates) to get the numerator of the weights.
 
@@ -116,7 +114,6 @@ Estimate the probability of receiving treatment, based on prior treatment (but N
 logit p[A_k = 1| \bar{A}_{k-1} = \bar{a}_{k-1}] = \alpha_0^* + \alpha_1^*k + \alpha_2^*a_{k-1} + \alpha_3^*a_{k-2}
 \end{align*}
 
-## Step 1: Calculate appropriate stabilized weights 
 
 ### Part C:
 Predict each subject's probability of the entire exposure history, from each of the models (based on either ONLY exposure history or exposure history PLUS covariates). Those predicted values are then plugged into this equation to get the stabilized weight for each subject, i. 
@@ -169,6 +166,7 @@ While we can use a variety of predicted values in the numerator, ultimately we w
 # Question 10: How does censoring change (a) the scientific question, (b) the causal model $\mathcal{M}^F$, (c) the counterfactuals and target causal parameter, (d) the observed data, (e) identifiability and (f) estimation
 
 The article suggests that censoring be considered as an additional time-varying treatment. This causes the following changes:
+
 * the scientific question: does not change
 * the causal model: add an indicator $C_k$ at each time point, which is an indicator of whether the outcome was observed at time k, and is equal to 1 if the subject was censored
 * the counterfactuals: the counterfactual outcomes must now include both that the subject followed a particular treatment regimen ($\bar{a}$) and that they were never censored ($\bar{C}=0$),so the counterfactuals are $Y(\bar{A}(t)= \bar{a}(t), \bar{C}(K)=0$
@@ -226,8 +224,6 @@ g_0(A(1)=a(1)|\bar{L}(1), A(0)) &= expit[\beta_0 + \beta_1 L(0) + \beta_2 L(1)] 
 
 **In this example** we are estimating the probability of being treated with AZT at each time point, given the covariate pattern and the prior history of AZT treatment.
 
-## Step 1: Calculate appropriate stabilized weights using the modified Horvitz-Thomas estimator
-
 ### Part B:
 Predict each subject's probability of the exposure at each time t, given his or her observed exposure and covariate history.
 
@@ -241,8 +237,6 @@ $g_n(A_i(t)=a_i(t) | \bar{A}_i(t-1), \bar{L_i}(t))$
 
 * for time points where AZT treatment is NOT occuring it is the predicted probability of NOT being treated, given the observed past.
 * for time points where AZT treatment IS occuring it is the predicted probability of being treated, given the observed past.
-
-## Step 1: Calculate appropriate stabilized weights using the modified Horvitz-Thomas estimator
 
 ### Part C:
 Predict each subject's probability of the entire exposure history, which is the product of the time point specific probabilities. 
