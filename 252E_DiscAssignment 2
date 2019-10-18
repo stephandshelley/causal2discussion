@@ -1,37 +1,50 @@
-Maximum Likelihood Estimation of the Longitudinal G-Comp. Estimand
-Stephanie Holm, Shelley Facente, Sabrina Boyce
-Oct. 30, 2019
+---
+title: 'Discussion Assignment #2'
+author: "Sabrina Boyce, Shelley Facente, and Steph Holm"
+date: "10/30/2019"
+output: beam_presentation
+---
+
+# Question 1: What is the goal of the article?
 
 
-1. What is the goal of the article?
-2. Consider the eect of diet on the cumulative risk of coronary heart disease (CHD) while controlling for a
+# Question 2: Consider the effect of diet on the cumulative risk of coronary heart disease (CHD) while controlling for a
 time-dependent diabetes. The causal model is represented by the following DAG. For simplicity, we have
 omitted the exogenous factors U and ignored censoring as well as death by other causes.
-(a) Why is diabetes a time-dependent confounder?
-(b) Specify the corresponding structural causal model MF using the following notation:
+
+# Question 2(a): Why is diabetes a time-dependent confounder?
+
+# Question 2(b): Specify the corresponding structural causal model MF using the following notation:
 - Let Lk be diabetes status at time k.
-- Let Ak be diet at time k. Then we can set it according to a static intervention: \good" Ak = 1 or
-\bad" Ak = 0 at time k.
+- Let Ak be diet at time k. Then we can set it according to a static intervention: \good" Ak = 1 or \bad" Ak = 0 at time k.
 - Let Yk to be an indicator that the subject was diagnosed with CHD by time k.
-The authors use slightly dierent notation. Specically, the authors dene Dk to be an indicator that
-the subject was diagnosed with CHD in the interval from (k 􀀀 1; k].
-(c) Specify the counterfactuals of interest and the target causal parameter.
-(d) What are the observed data O? Factorize the observed data distribution P0 according to the time-
+
+# Question 2(c):The authors use slightly different notation. Specifically, the authors define Dk to be an indicator that the subject was diagnosed with CHD in the interval from (k 􀀀 1; k].
+ Specify the counterfactuals of interest and the target causal parameter.
+
+# Question 2(d) What are the observed data O? Factorize the observed data distribution P0 according to the time-
 ordering.
-(e) What assumptions are needed to identify the causal parameter from the observed data distribution?
-(f) Specify the G-computation formula (i.e. the statistical estimand) for this example.
-(g) How would you implement a longitudinal parametric G formula (i.e. non-targeted substitution) estimator
+
+# Question 2(e): What assumptions are needed to identify the causal parameter from the observed data distribution?
+# Question 2(f): Specify the G-computation formula (i.e. the statistical estimand) for this example.
+# Question 2(g): How would you implement a longitudinal parametric G formula (i.e. non-targeted substitution) estimator
 for this parameter?
 
-3. Discuss the hypothetical interventions on risk factors for CHD.
-(a) How are interventions 1 and 2 dierent?
-(b) Why do the authors consider the BMI intervention to be \unrealistic"?
-4. How is censoring handled in the primary analysis? Discuss the relevant assumptions.
-5. How is death by another cause handled in the primary analysis?
-6. What exclusion restrictions do the authors make?
-7. What parametric assumptions do the authors make? How much might these impact results (alluded to in the
+# Question 3. Discuss the hypothetical interventions on risk factors for CHD.
+#3(a) How are interventions 1 and 2 dierent?
+#3(b) Why do the authors consider the BMI intervention to be \unrealistic"?
+
+# Question 4. How is censoring handled in the primary analysis? Discuss the relevant assumptions.
+
+# Question 5. How is death by another cause handled in the primary analysis?
+
+# Question 6. What exclusion restrictions do the authors make?
+
+# Question 7. What parametric assumptions do the authors make? How much might these impact results (alluded to in the
 sensitivity analyses)? How might you approach the estimation problem dierently?
-8. On page 1604, the authors describe the simulation of risk factor histories not present in the observed data.
+
+# Question 8. On page 1604, the authors describe the simulation of risk factor histories not present in the observed data.
 What assumption does this refer to? What is the danger here?
-9. Bonus: The authors say they used cross validation to ne tune prediction models. What do you think they
+
+# Question 9. Bonus: The authors say they used cross validation to ne tune prediction models. What do you think they
 mean? How would you use cross validation to ne tune prediction models?
