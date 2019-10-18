@@ -6,23 +6,43 @@ output: beam_presentation
 ---
 
 # Question 1: What is the goal of the article?
-
+The goal of the article is to provide an example of using the parametric g-computation formula to estimate the impact of various behavioral and lifestyle interventions on CHD risk using data from the Nurses Health Study. 
 
 # Question 2: Consider the effect of diet on the cumulative risk of coronary heart disease (CHD) while controlling for a
 time-dependent diabetes. The causal model is represented by the following DAG. For simplicity, we have
 omitted the exogenous factors U and ignored censoring as well as death by other causes.
 
 # Question 2(a): Why is diabetes a time-dependent confounder?
+Diabetes is a time-dependent confounder because 1) diabetes is a risk-factor for the outcome, CHD; 2) a diagnosis of diabetes could impact future exposure status, diet; and 3) prior diet may impact whether or not a person is diagnosed with diabetes. So, this covariate can both be impacted by the exposure and can impact the exposure. 
 
 # Question 2(b): Specify the corresponding structural causal model MF using the following notation:
 - Let Lk be diabetes status at time k.
 - Let Ak be diet at time k. Then we can set it according to a static intervention: \good" Ak = 1 or \bad" Ak = 0 at time k.
 - Let Yk to be an indicator that the subject was diagnosed with CHD by time k.
 
-# Question 2(c): Specify the counterfactuals of interest and the target causal parameter.
-Our counterfactuals of interest are the average treatment effect of applying each of the 18 interventions to the whole population (and for interventions 9-18, the interventions are only applied to high risk groups)
-compared to no one in the population getting the intervention. This could be denoted as: $E_{U,X}[Y_a]$, the counterfactual mean outcome of the population under treatment A=a. 
+\begin{align*}
+O={\bar{L}(k), \bar{A}(k), Y(k)}
+\bar_L(k) = Diabetes diagnosis at time k
+\bar_A(k) = diet at time k
+Y(k) = CHD at time k
+\end{align*}
+\begin{align*}
+\bar_L(k) = f_{L(k)}(\bar{U_{L(k)}}, \bar{A}(k-1), \bar{L}(k-1))
+\bar_A(k) = f_{A(k)}(\bar{U_{A(k)}}, \bar{A}(k-1), \bar{L}(k), \bar{Y}(k-1))
+Y(k) = f_{Y(k)}(\bar{U_{Y(k)}}, \bar{A}(k), \bar{L}(k), \bar{Y}(k-1))
+\end{align*}
 
+
+# Question 2(c): Specify the counterfactuals of interest and the target causal parameter.
+Our counterfactuals of interest are the values of $Y_{\bar{a_k}}$ we would have observed if $A_0$ had been set to values 0, 1, 2, 3,...18 at each time point, all the 18 possible lifestyle interventions at each time point. We are able to generate these counterfactuals by plugging in every combination of treatment level across all time points and observing the outcome for each.
+
+The target causal parameter is given by the following marginal structural model: 
+#Fix
+\begin{align}
+E(Y_{\bar{a_k}})=m(\bar{a}|\beta= \beta_0 + \beta_1\sum_{t=1}^ka(t)
+\end{align}
+
+Our target causal parameter is $\beta_1$ so that we can calculate $e^\beta_1$ which would give us the causal OR for CHD associated with the 18 lifestyle interventions. $\beta_1$ represents the causal parameter if the relationship between the interventions and CHD is unconfounded by measured or unmeasured factors. 
 
 
 # Question 2(d) What are the observed data O? Factorize the observed data distribution P0 according to the time-
