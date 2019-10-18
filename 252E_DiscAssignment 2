@@ -19,8 +19,11 @@ omitted the exogenous factors U and ignored censoring as well as death by other 
 - Let Ak be diet at time k. Then we can set it according to a static intervention: \good" Ak = 1 or \bad" Ak = 0 at time k.
 - Let Yk to be an indicator that the subject was diagnosed with CHD by time k.
 
-# Question 2(c):The authors use slightly different notation. Specifically, the authors define Dk to be an indicator that the subject was diagnosed with CHD in the interval from (k 􀀀 1; k].
- Specify the counterfactuals of interest and the target causal parameter.
+# Question 2(c): Specify the counterfactuals of interest and the target causal parameter.
+Our counterfactuals of interest are the average treatment effect of applying each of the 18 interventions to the whole population (and for interventions 9-18, the interventions are only applied to high risk groups)
+compared to no one in the population getting the intervention. This could be denoted as: $E_{U,X}[Y_a]$, the counterfactual mean outcome of the population under treatment A=a. 
+
+
 
 # Question 2(d) What are the observed data O? Factorize the observed data distribution P0 according to the time-
 ordering.
