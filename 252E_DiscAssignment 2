@@ -48,16 +48,23 @@ Our target causal parameter is $\beta_1$ such that $e^\beta_1$ would give us the
 # Question 2(d) What are the observed data O? Factorize the observed data distribution P0 according to the time-
 ordering.
 
+N i.i.d. copies of $O=(\bar{A(t)}, \bar{L(t)})~P_0$ 
 
+#Not sure on bar{Y}(k-1) piece...
+\begin{align*}
+& \text{The statistical estimand is} \\
+& \ \ \ \ \ \ \ \Psi(P_0) = \sum_{\bar{l}^10}(E(Y(k)|\bar{A}=1, \bar{L}=\bar{l}, \bar{Y}(k-1)=\bar{y}(k-1)) x P(L(k)=l(k)|\bar{A}(k-1)=1, \bar{L}(k-1)=\bar{l}(k-1)) x P(Y(k-1)=y(k-1)|\bar{A}(k-1)=1, \bar{L}(k-1)=\bar{l}(k-1)) \\
+& \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \sum_{\bar{l}}(E(Y(k)|\bar{A}=1, \bar{L}=\bar{l}, \bar{Y}(k-1)=\bar{y}(k-1)) x P(L(k)=l(k)|\bar{A}(k-1)=1, \bar{L}(k-1)=\bar{l}(k-1)) x P(Y(k-1)=y(k-1)|\bar{A}(k-1)=1, \bar{L}(k-1)=\bar{l}(k-1))
+\end{align*}
 
 # Question 2(e): What assumptions are needed to identify the causal parameter from the observed data distribution?
 In order to identify our causal parameter from the observed data distribution, we must use the: 
 1. Randomization assumption, which assumes a is independent of y.
 2. Sequestion backdoor path criteria which allows us to control for a different set of covariates at each time point. 
 3. Positivity assumption, which assumes that no strata have few or no observations. 
-4. No unmeasured confounding?
-5. Correct model is specified?
-6. No competing risks? 
+4. No unmeasured confounding
+5. Correct model is specified
+6. No measurement error 
 
 
 # Question 2(f): Specify the G-computation formula (i.e. the statistical estimand) for this example.
@@ -66,8 +73,16 @@ In order to identify our causal parameter from the observed data distribution, w
 # Question 2(g): How would you implement a longitudinal parametric G formula (i.e. non-targeted substitution) estimator
 for this parameter?
 
-Step 1. Use a logistic regression to model CHD, death, and time-varying risk factors using time-varying and baseline risk factors for the 2 previous time points (2 years and 4 years prior)  
-Step 2. 
+Step 1. Use a pooled logistic regression to model each time-varying risk factors using time-varying and baseline risk factors for the 2 previous time points (2 years and 4 years prior) among those with no prior diagnosis of CHD
+Step 2. Use a pooled logistic regression to model CHD using time-varying and baseline risk factors for the 2 previous time points (2 years and 4 years prior) among those with no prior diagnosis of CHD
+Take the product of the conditional probabilities of each time-varying risk factor
+Step 3. Simulate data (n=10,000) using Monte Carlo simulation
+Step 4. Simulate covariates by predicting their values using the risk factor models' coefficients from step 1. 
+Step 5. Use a logistic regression model to model each level of the intervention using time-varying and baseline risk factors. 
+Step 6. Predict CHD at each time point for each individual based on the simulated and intervened upon risk factors. 
+Step 7. Calculate the cumulative risk across all individuals
+Step 8. Repeat 6 and 7 above for each level of A to get a comparison of A=1 and A=0
+Step 9. Use bootstrapping to calculate 95% confidence intervals
 
 
 # Question 3. Discuss the hypothetical interventions on risk factors for CHD.
