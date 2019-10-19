@@ -26,6 +26,7 @@ O={\bar{L}(k), \bar{A}(k), Y(k)}
 \bar_A(k) = diet at time k
 Y(k) = CHD at time k
 \end{align*}
+
 \begin{align*}
 \bar_L(k) = f_{L(k)}(\bar{U_{L(k)}}, \bar{A}(k-1), \bar{L}(k-1))
 \bar_A(k) = f_{A(k)}(\bar{U_{A(k)}}, \bar{A}(k-1), \bar{L}(k), \bar{Y}(k-1))
@@ -37,21 +38,37 @@ Y(k) = f_{Y(k)}(\bar{U_{Y(k)}}, \bar{A}(k), \bar{L}(k), \bar{Y}(k-1))
 Our counterfactuals of interest are the values of $Y_{\bar{a_k}}$ we would have observed if $A_0$ had been set to values 0, 1, 2, 3,...18 at each time point, all the 18 possible lifestyle interventions at each time point. We are able to generate these counterfactuals by plugging in every combination of treatment level across all time points and observing the outcome for each.
 
 The target causal parameter is given by the following marginal structural model: 
-#Fix
-\begin{align}
-E(Y_{\bar{a_k}})=m(\bar{a}|\beta= \beta_0 + \beta_1\sum_{t=1}^ka(t)
-\end{align}
 
-Our target causal parameter is $\beta_1$ so that we can calculate $e^\beta_1$ which would give us the causal OR for CHD associated with the 18 lifestyle interventions. $\beta_1$ represents the causal parameter if the relationship between the interventions and CHD is unconfounded by measured or unmeasured factors. 
+\begin{align*}
+E(Y_{\bar{a_k}})=m(\bar{a}|\beta)= logit(P_{U,X}(Y_{\bar{a}=1}))=\beta_0 + \beta_1a
+\end{align*}
 
+Our target causal parameter is $\beta_1$ such that $e^\beta_1$ would give us the causal OR for CHD associated with the 18 lifestyle interventions. $\beta_1$ represents the causal parameter if the relationship between the interventions and CHD is unconfounded by measured or unmeasured factors. 
 
 # Question 2(d) What are the observed data O? Factorize the observed data distribution P0 according to the time-
 ordering.
 
+
+
 # Question 2(e): What assumptions are needed to identify the causal parameter from the observed data distribution?
+In order to identify our causal parameter from the observed data distribution, we must use the: 
+1. Randomization assumption, which assumes a is independent of y.
+2. Sequestion backdoor path criteria which allows us to control for a different set of covariates at each time point. 
+3. Positivity assumption, which assumes that no strata have few or no observations. 
+4. No unmeasured confounding?
+5. Correct model is specified?
+6. No competing risks? 
+
+
 # Question 2(f): Specify the G-computation formula (i.e. the statistical estimand) for this example.
+\hat_{\psi_{n, gcomp}}(P_n) = 1/n \sum_{i=1}^n \bar{Q_n}(A_i=a,W_i)
+
 # Question 2(g): How would you implement a longitudinal parametric G formula (i.e. non-targeted substitution) estimator
 for this parameter?
+
+Step 1. Use a logistic regression to model CHD, death, and time-varying risk factors using time-varying and baseline risk factors for the 2 previous time points (2 years and 4 years prior)  
+Step 2. 
+
 
 # Question 3. Discuss the hypothetical interventions on risk factors for CHD.
 #3(a) How are interventions 1 and 2 dierent?
@@ -64,7 +81,7 @@ for this parameter?
 # Question 6. What exclusion restrictions do the authors make?
 
 # Question 7. What parametric assumptions do the authors make? How much might these impact results (alluded to in the
-sensitivity analyses)? How might you approach the estimation problem dierently?
+sensitivity analyses)? How might you approach the estimation problem differently?
 
 # Question 8. On page 1604, the authors describe the simulation of risk factor histories not present in the observed data.
 What assumption does this refer to? What is the danger here?
