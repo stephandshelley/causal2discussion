@@ -48,25 +48,16 @@ E(Y_{\bar{a_k}})=m(\bar{a}|\beta)= logit(P_{U,X}(Y_{\bar{a}=1}))=\beta_0 + \beta
 Our target causal parameter is $\beta_1$, where $e^{\beta_1}$ gives us the causal OR for CHD associated with the 18 lifestyle interventions. $\beta_1$ represents the causal parameter if the relationship between the interventions and CHD is unconfounded by measured or unmeasured factors. 
 ***
 From the discussion in class:
-$\psi^F(P_{U,X}) = \mathcal{E}[Y(2)_{\bar{a}=1}- Y(2)_{\bar{a}=0}]
+$\psi^F(P_{U,X}) = E [Y(2)_{\bar{a}=1}- Y(2)_{\bar{a}=0}]$
 ***
 
 # Question 2(d) What are the observed data O? Factorize the observed data distribution $P_0$ according to the time-ordering.
 
 N i.i.d. copies of $O=(L_0, A_0, L_1, A_1, L_2)$ ~ $P_0$ 
-<!-- I know that Y is a subset of the Ls and that there's a Y_2 in the DAG but it still seems strange to include L_2 in this variable set given that there's no L_2 on the DAG, only a Y_2? Not a big deal, just wanted to point this out. (SF)-->
+
 
 (with Y as a subset of the Ls)
 
-<!--Not sure on bar{Y}(k-1) piece...-->
-<!-- Based on  Maya's slides, lect 6, slide 12, I think this is wrong, so I'm commenting it out (SH)
-and adding what I  think is correct below. Additional note: I checked my interpretation with David.
-\begin{align*}
-& \text{The statistical estimand is} \\
-& \ \ \ \ \ \ \ \Psi(P_0) = \sum_{\bar{l}^10}(E(Y(k)|\bar{A}=1, \bar{L}=\bar{l}, \bar{Y}(k-1)=\bar{y}(k-1)) x P(L(k)=l(k)|\bar{A}(k-1)=1, \bar{L}(k-1)=\bar{l}(k-1)) x P(Y(k-1)=y(k-1)|\bar{A}(k-1)=1, \bar{L}(k-1)=\bar{l}(k-1)) \\
-& \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \sum_{\bar{l}}(E(Y(k)|\bar{A}=1, \bar{L}=\bar{l}, \bar{Y}(k-1)=\bar{y}(k-1)) x P(L(k)=l(k)|\bar{A}(k-1)=1, \bar{L}(k-1)=\bar{l}(k-1)) x P(Y(k-1)=y(k-1)|\bar{A}(k-1)=1, \bar{L}(k-1)=\bar{l}(k-1))
-\end{align*}
--->
 
 Basic probability reminder for factoring:
 
@@ -143,7 +134,7 @@ E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y_2 | \bar{A}_1 = \bar{a}_1, \bar{L}_1 = \bar
 # Question 3. Discuss the hypothetical interventions on risk factors for CHD.
 # 3(a) How are interventions 1 and 2 different?
 
-Intervention 1 (quit smoking) is a static intervention in that everyone receives the same exposure intervention (no smoking) whereas intervention 2 is dynamic because anyone that exercises less than 30 minutes a day is intervened upon to increase their exercise to more than 30 minutes per day. Those already exercising 30 minutes per day, don't have any change made. Thus, what intervention is received is dependent on the participants baseline exercise time.
+Intervention 1 (quit smoking) is a static intervention in that everyone receives the same exposure intervention (no smoking) whereas intervention 2 is dynamic because anyone that exercises less than 30 minutes a day is intervened upon to increase their exercise to more than 30 minutes per day. Those already exercising 30 minutes per day, don't have any change made. Thus, what intervention is received is dependent on the participants current exercise time. 
 
 
 # 3(b) Why do the authors consider the BMI intervention to be "unrealistic"?
