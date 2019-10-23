@@ -179,6 +179,10 @@ The authors make no exclusion restrictions.
 
 # Question 7. What parametric assumptions do the authors make? How much might these impact results (alluded to in the sensitivity analyses)? How might you approach the estimation problem differently?
 
+The authors use a parametric model for probability of CHD and risk of death given a variety of time-varying risk factors ($L$s): pooled logistic regression. The order in which the covariates are included in the regression model affects the risk estimates. Model misspecification may also bias the estimates because of improper extrapolation beyond the limits of the data, or improper fitting of a line or curve based on assumed relationships of the treatment and outcome. 
+
+I might approach this estimation problem using nonparametric estimators, XXXXX
+
 # Question 8. On page 1604, the authors describe the simulation of risk factor histories not present in the observed data.What assumption does this refer to? What is the danger here?
 
 # Question 9. Bonus: The authors say they used cross validation to fine tune prediction models. What do you think they mean? How would you use cross validation to fine tune prediction models?
