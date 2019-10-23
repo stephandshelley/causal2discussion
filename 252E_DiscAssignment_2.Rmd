@@ -145,19 +145,20 @@ E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}_2 = \bar{a}_2, \bar{L}_2 = \bar{l
 2. Use a pooled logistic regression model to model non-CHD death for the 2 previous time points (2 years and 4 years prior) among those with no prior diagnosis of CHD
 3. Use a pooled logistic regression to model CHD using time-varying and baseline risk factors for the 2 previous time points (2 years and 4 years prior) among those with no prior diagnosis of CHD
 4. Simulate data (n=10,000) using Monte Carlo simulation
-5. Simulate covariates by predicting their values using the risk factor models' coefficients from step 1. 
+5. Simulate covariates by predicting their values using the risk factor models' coefficients from step 1. If the value you are simulating is a continuous variable, then it's simulated from a distribution with the expectation as the mean but with some variability.
 6. Use a logistic regression model to model each level of the intervention using time-varying and baseline risk factors. 
 7. Predict the probability of non-CHD death at each time point based on the simulated and intervened upon risk factors. 
 8. Predict CHD at each time point for each individual based on the simulated and intervened upon risk factors. 
 9. Calculate the cumulative risk across all individuals
-10. Repeat 4-9 above for each level of A to get a comparison of A=1 and A=0
+10. Repeat 4-9 above for each level of A to get a estimate for every treatment regime of interest
 11. Use bootstrapping to calculate 95% confidence intervals
 
 
 # Question 3. Discuss the hypothetical interventions on risk factors for CHD.
 # 3(a) How are interventions 1 and 2 different?
 
-Intervention 1 is to avoid smoking, wheras intervetion 2 is to exercise at least 30 minutes each day. Obviously these are practically very different interventions, but importantly, intervention 1 is not something that could be intervened upon in real life. Once someone has smoked, they can't ever be a never smoker again.
+Intervention 1 (quit smoking) is a static intervention in that everyone receives the same exposure intervention (no smoking) whereas intervention 2 is dynamic because anyone that exercises less than 30 minutes a day is intervened upon to increase their exercise to more than 30 minutes per day. Those already exercising 30 minutes per day, don't have any change made. Thus, what intervention is received is dependent on the participants baseline exercise time.
+
 
 # 3(b) Why do the authors consider the BMI intervention to be "unrealistic"?
 
