@@ -106,10 +106,7 @@ P(O=o) &= \\
 In order to identify our causal parameter from the observed data distribution, we must assume:
 
 1. Sequential Randomization, which assumes each a is independent of y (and which allows us to control for a different set of covariates at each time point)
-2. Positivity, which assumes that no strata have few or no observations. 
-3. No unmeasured confounding
-4. Correct model is specified
-5. No measurement error 
+2. Positivity, which assumes that no strata of the exposure given covariates have few or no observations. 
 
 
 # Question 2(f): Specify the G-computation formula (i.e. the statistical estimand) for this example.
