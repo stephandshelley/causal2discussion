@@ -10,13 +10,13 @@ output:
 # Question 1: What is the goal of the article?
 The goal of the article is to provide an example of using the parametric g-computation formula to estimate the impact of various behavioral and lifestyle interventions on CHD risk using data from the Nurses Health Study. 
 
-# Question 2: Consider the effect of diet on the cumulative risk of coronary heart disease (CHD) while controlling for a time-dependent diabetes. The causal model is represented by the following DAG. For simplicity, we have omitted the exogenous factors U and ignored censoring as well as death by other causes.
+# Question 2: Consider the effect of diet on the cumulative risk of coronary heart disease (CHD) while controlling for time-dependent diabetes. 
 
 # Question 2(a): Why is diabetes a time-dependent confounder?
 Diabetes is a time-dependent confounder because:
 
 1. Diabetes is a risk-factor for the outcome, CHD 
-2. A diagnosis of diabetes could impact future exposure status, diet 
+2. A diagnosis of diabetes could impact future exposure status, diet, and
 3. Prior diet may impact whether or not a person is diagnosed with diabetes. 
 
 So, this covariate can both be impacted by the exposure and can impact the exposure. 
@@ -39,7 +39,7 @@ Y(k) &= f_{Y(k)}(\bar{U_{Y(k)}}, \bar{A}(k), \bar{L}(k), \bar{Y}(k-1)) \\
 
 
 # Question 2(c): Specify the counterfactuals of interest and the target causal parameter.
-Our counterfactuals of interest are the values of $Y_{\bar{a_k}}$ we would have observed if $A_0$ had been set to values 0, 1, 2, 3,...18 at each time point, all the 18 possible lifestyle interventions at each time point. We are able to generate these counterfactuals by plugging in every combination of treatment level across all time points and observing the outcome for each.
+Our counterfactuals of interest are the values of $Y_{\bar{a_k}}$ we would have observed if $A_0$ had been set to values 0, 1, 2, 3,...18 at each time point, with these values representating all the 18 possible lifestyle interventions at each time point. We are able to generate these counterfactuals by plugging in every combination of treatment level across all time points and observing the outcome for each.
 
 The target causal parameter is given by the following marginal structural model: 
 
@@ -47,12 +47,13 @@ The target causal parameter is given by the following marginal structural model:
 E(Y_{\bar{a_k}})=m(\bar{a}|\beta)= logit(P_{U,X}(Y_{\bar{a}=1}))=\beta_0 + \beta_1a
 \end{align*}
 
-Our target causal parameter is $\beta_1$ such that $e^{\beta_1}$ would give us the causal OR for CHD associated with the 18 lifestyle interventions. $\beta_1$ represents the causal parameter if the relationship between the interventions and CHD is unconfounded by measured or unmeasured factors. 
+Our target causal parameter is $\beta_1$, where $e^{\beta_1}$ gives us the causal OR for CHD associated with the 18 lifestyle interventions. $\beta_1$ represents the causal parameter if the relationship between the interventions and CHD is unconfounded by measured or unmeasured factors. 
 -->
 
 # Question 2(d) What are the observed data O? Factorize the observed data distribution $P_0$ according to the time-ordering.
 
 N i.i.d. copies of $O=(L_0, A_0, L_1, A_1, L_2)$ ~ $P_0$ 
+<!-- I know that Y is a subset of the Ls and that there's a Y_2 in the DAG but it still seems strange to include L_2 in this variable set given that there's no L_2 on the DAG, only a Y_2? Not a big deal, just wanted to point this out. (SF)-->
 
 (with Y as a subset of the Ls)
 
@@ -66,13 +67,13 @@ and adding what I  think is correct below. Additional note: I checked my interpr
 \end{align*}
 -->
 
-Basic Probability reminder for factoring:
+Basic probability reminder for factoring:
 
 * $P(A,B) = P(A \cup B) = P(A|B) X P(B)$
 
-* If we know that say 10% of the class drinks coffee, and that of coffee drinkers, 50% like ginger cookies, then 5% of the class drinks coffee AND likes ginger cookies.
+* If we know that say 10% of the class drinks coffee, and that of coffee drinkers 50% like ginger cookies, then 5% of the class drinks coffee AND likes ginger cookies.
 
-* So then, $P(A, B, C) = P(A|B,C) X P( B |C) X P(C)$
+* So then, $P(A, B, C) = P(A|B,C) X P(B|C) X P(C)$
 
 Because we have something that is a function of the joint distribution ($P_0$) we can factorize it using probability rules into conditional distributions that we can use.
 
@@ -101,10 +102,10 @@ P(O=o) & = \\
 <!-- Note, the Q factors are the g-comp portion of this and the g factors are the iptw portion-->
 
 # Question 2(e): What assumptions are needed to identify the causal parameter from the observed data distribution?
-In order to identify our causal parameter from the observed data distribution, we must use the:
+In order to identify our causal parameter from the observed data distribution, we must assume:
 
-1. Sequential Randomization assumption, which assumes each a is independent of y (and which allows us to control for a different set of covariates at each time point)
-2. Positivity assumption, which assumes that no strata have few or no observations. 
+1. Sequential Randomization, which assumes each a is independent of y (and which allows us to control for a different set of covariates at each time point)
+2. Positivity, which assumes that no strata have few or no observations. 
 3. No unmeasured confounding
 4. Correct model is specified
 5. No measurement error 
@@ -117,9 +118,23 @@ $\hat{\psi_{n, gcomp}}(P_n) = 1/n \sum_{i=1}^n \bar{Q_n}(A_i=a,W_i)$
 -->
 
 <!--Shelley- can you check the indexing on these sums/products? I'm not sure I translated it right from Maya's slides, SH -->
+<!--No, I don't think that's right - commenting it out but let's discuss, SF-->
+<!--
 \begin{align*}
 E(Y_{\bar{a}}) = &\sum_0^1 E(Y | \bar{A}_K = \bar{a}_K, \bar{L}_K = \bar{l}_K) X \\
 & \prod_{0}^{1} P(L_k=l_k | \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1} )
+\end{align*}
+-->
+The general longitudinal G computation formula is:
+\begin{align*}
+E(Y_{\bar{a}}) = &\sum_\bar{l} E(Y | \bar{A}(K) = \bar{a}(K), \bar{L}(K) = \bar{l}(K) \ \ \times\\
+& \prod_{t=1}^{K} P(L(t)=l(t) | \bar{A}(t-1) = \bar{a}(t-1), \bar{L}(t-1) = \bar{l}(t-1))
+\end{align*}
+
+Therefore in this specific example it would be:
+\begin{align*}
+E(Y_{\bar{a}}) = &\sum_\bar{l} E(Y | \bar{A}(K) = \bar{a}(K), \bar{L}(K) = \bar{l}(K) \ \ \times\\
+& \prod_{t=1}^{K} P(L(t)=l(t) | \bar{A}(t-1) = \bar{a}(t-1), \bar{L}(t-1) = \bar{l}(t-1))
 \end{align*}
 
 <!--
