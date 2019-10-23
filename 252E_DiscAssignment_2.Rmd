@@ -96,8 +96,8 @@ P(O=o) &= \\
 # Question 2(e): What assumptions are needed to identify the causal parameter from the observed data distribution?
 In order to identify our causal parameter from the observed data distribution, we must assume:
 
-1. Sequential Randomization, which assumes each a is independent of y (and which allows us to control for a different set of covariates at each time point)
-2. Positivity, which assumes that no strata of the exposure given covariates have few or no observations. 
+1. Sequential Randomization, which assumes each a is independent of y (and which allows us to control for a different set of covariates at each time point), and that we have measured all confounders sufficiently for identifiability.
+2. Positivity, which assumes that no strata of the exposure, given covariates, have few or no observations. 
 
 
 # Question 2(f): Specify the G-computation formula (i.e. the statistical estimand) for this example.
