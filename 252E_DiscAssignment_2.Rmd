@@ -1,12 +1,10 @@
 ---
 title: 'Discussion Assignment #2'
 author: "Sabrina Boyce, Shelley Facente, and Steph Holm"
-date: "10/30/2019"
-output:
-  beamer_presentation: default
+date: "10/23/2019"
+output: pdf_document
 ---
 
-<!--
 # Question 1: What is the goal of the article?
 The goal of the article is to provide an example of using the parametric g-computation formula to estimate the impact of various behavioral and lifestyle interventions on CHD risk using data from the Nurses Health Study. 
 
@@ -48,7 +46,7 @@ E(Y_{\bar{a_k}})=m(\bar{a}|\beta)= logit(P_{U,X}(Y_{\bar{a}=1}))=\beta_0 + \beta
 \end{align*}
 
 Our target causal parameter is $\beta_1$, where $e^{\beta_1}$ gives us the causal OR for CHD associated with the 18 lifestyle interventions. $\beta_1$ represents the causal parameter if the relationship between the interventions and CHD is unconfounded by measured or unmeasured factors. 
--->
+
 
 # Question 2(d) What are the observed data O? Factorize the observed data distribution $P_0$ according to the time-ordering.
 
@@ -140,7 +138,7 @@ E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}_2 = \bar{a}_2, \bar{L}_2 = \bar{l
 \end{align*}
 (Given that timepoints run from $t=0$ to $t=2$, and thus $K=2$)
 
-<!--
+
 # Question 2(g): How would you implement a longitudinal parametric G formula (i.e. non-targeted substitution) estimator for this parameter?
 
 1. Use a pooled logistic regression to model each time-varying risk factors using time-varying and baseline risk factors for the 2 previous time points (2 years and 4 years prior) among those with no prior diagnosis of CHD
@@ -188,4 +186,3 @@ I might approach this estimation problem using nonparametric estimators, such as
 This assumes that average risk factor histories of people who are censored (or died from non-CHD causes) are not meaningfully different from the average risk factor histories of people who continue to be observed in the dataset, such that the missing data can be filled in via covariate patterns. The danger here is that there could be meaningful differences between people who are censored or died from other causes, and violations of the assumption used here could obscure important patterns in risk of death as a result of CHD in this population.
 
 # Question 9. Bonus: The authors say they used cross validation to fine tune prediction models. What do you think they mean? How would you use cross validation to fine tune prediction models?
--->
