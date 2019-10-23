@@ -111,30 +111,16 @@ In order to identify our causal parameter from the observed data distribution, w
 
 # Question 2(f): Specify the G-computation formula (i.e. the statistical estimand) for this example.
 
-<!-- SH- I don't think this is right either
-$\hat{\psi_{n, gcomp}}(P_n) = 1/n \sum_{i=1}^n \bar{Q_n}(A_i=a,W_i)$
--->
-
-<!--Shelley- can you check the indexing on these sums/products? I'm not sure I translated it right from Maya's slides, SH -->
-<!--No, I don't think that's right - commenting it out but let's discuss what I've done (based on Maya's Lecture 3, slide 34) to see if you agree? SF-->
-
-<!--
-\begin{align*}
-E(Y_{\bar{a}}) = &\sum_0^1 E(Y | \bar{A}_K = \bar{a}_K, \bar{L}_K = \bar{l}_K) X \\
-& \prod_{0}^{1} P(L_k=l_k | \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1} )
-\end{align*}
--->
-
 The general longitudinal G computation formula is:
 \begin{align*}
-E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}_K = \bar{a}_K, \bar{L}_K = \bar{l}_K) \ \ \times\\
+E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y_{K+1} | \bar{A}_K = \bar{a}_K, \bar{L}_K = \bar{l}_K) \ \ \times\\
 & \prod_{t=1}^{K} P(L_t=l_t | \bar{A}_{t-1} = \bar{a}_{t-1}, \bar{L}_{t-1} = \bar{l}_{t-1}) \\
 \end{align*}
 
 Therefore in this specific example it would be:
 \begin{align*}
-E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}_2 = \bar{a}_2, \bar{L}_2 = \bar{l}_2) \ \ \times\\
-&\prod_{0}^{2} P(L_t=l_t | \bar{A}_{t-1} = \bar{a}_{t-1}, \bar{L}_{t-1} = \bar{l}_{t-1}) \\
+E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y_2 | \bar{A}_1 = \bar{a}_1, \bar{L}_1 = \bar{l}_1) \ \ \times\\
+&\prod_{0}^{1} P(L_t=l_t | \bar{A}_{t-1} = \bar{a}_{t-1}, \bar{L}_{t-1} = \bar{l}_{t-1}) \\
 \end{align*}
 (Given that timepoints run from $t=0$ to $t=2$, and thus $K=2$)
 
