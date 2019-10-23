@@ -139,7 +139,7 @@ Intervention 1 (quit smoking) is a static intervention in that everyone receives
 
 # 3(b) Why do the authors consider the BMI intervention to be "unrealistic"?
 
-The BMI intervention is specifying "an attribute rather than a behavior" so the method of intervening on this would be more ambiguous, and different interventions could affect CHD differently.
+The BMI intervention is specifying "an attribute rather than a behavior" so the method of intervening on this is ambiguous, and different interventions could affect CHD differently. Also for some people it might require a large BMI change in a short period of time which is impractical, and because it would be unlikely to happen it could lead to practical positivity violations.
 
 # Question 4. How is censoring handled in the primary analysis? Discuss the relevant assumptions.
 
