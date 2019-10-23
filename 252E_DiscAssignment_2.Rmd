@@ -6,7 +6,7 @@ output: pdf_document
 ---
 
 # Question 1: What is the goal of the article?
-The goal of the article is to provide an example of using the parametric g-computation formula to estimate the impact of various behavioral and lifestyle interventions on CHD risk using data from the Nurses Health Study. 
+The goal of the article is to provide an example of using the parametric g-computation formula to estimate the impact of various behavioral and lifestyle interventions on CHD risk using data from the Nurses Health Study. It's the first large scale application of the parametric g-formula in an epidemiologic study.
 
 # Question 2: Consider the effect of diet on the cumulative risk of coronary heart disease (CHD) while controlling for time-dependent diabetes. 
 
@@ -17,7 +17,7 @@ Diabetes is a time-dependent confounder because:
 2. A diagnosis of diabetes could impact future exposure status, diet, and
 3. Prior diet may impact whether or not a person is diagnosed with diabetes. 
 
-So, this covariate can both be impacted by the exposure and can impact the exposure. 
+So, this covariate can both be impacted by the exposure and can impact future exposure. 
 
 # Question 2(b): Specify the corresponding structural causal model $\mathcal{M}^F$ using the following notation:
 * Let $L_k$ be diabetes status at time k.
@@ -30,7 +30,7 @@ O &= \{\bar{L}(k), \bar{A}(k), Y(k)\}  \\
 \bar{A}(k) &= \text{diet at time k} \\
 Y(k) &= \text{CHD at time k} \\
 \\
-\bar{L}(k) &= f_{L(k)}(\bar{U_{L(k)}}, \bar{A}(k-1), \bar{L}(k-1)) \\
+\bar{L}(k) &= f_{L(k)}(\bar{U_{L(k)}}, \bar{A}(k-1), \bar{L}(k-1), \bar{Y}(k-1)) \\
 \bar{A}(k) &= f_{A(k)}(\bar{U_{A(k)}}, \bar{A}(k-1), \bar{L}(k), \bar{Y}(k-1)) \\
 Y(k) &= f_{Y(k)}(\bar{U_{Y(k)}}, \bar{A}(k), \bar{L}(k), \bar{Y}(k-1)) \\
 \end{align*}
@@ -46,7 +46,10 @@ E(Y_{\bar{a_k}})=m(\bar{a}|\beta)= logit(P_{U,X}(Y_{\bar{a}=1}))=\beta_0 + \beta
 \end{align*}
 
 Our target causal parameter is $\beta_1$, where $e^{\beta_1}$ gives us the causal OR for CHD associated with the 18 lifestyle interventions. $\beta_1$ represents the causal parameter if the relationship between the interventions and CHD is unconfounded by measured or unmeasured factors. 
-
+***
+From the discussion in class:
+$\psi^F(P_{U,X}) = \mathcal{E}[Y(2)_{\bar{a}=1}- Y(2)_{\bar{a}=0}]
+***
 
 # Question 2(d) What are the observed data O? Factorize the observed data distribution $P_0$ according to the time-ordering.
 
