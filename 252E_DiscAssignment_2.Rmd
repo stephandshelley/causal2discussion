@@ -129,14 +129,14 @@ E(Y_{\bar{a}}) = &\sum_0^1 E(Y | \bar{A}_K = \bar{a}_K, \bar{L}_K = \bar{l}_K) X
 
 The general longitudinal G computation formula is:
 \begin{align*}
-E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}(K) = \bar{a}(K), \bar{L}(K) = \bar{l}(K) \ \ \times\\
-& \prod_{t=1}^{K} P(L(t)=l(t) | \bar{A}(t-1) = \bar{a}(t-1), \bar{L}(t-1) = \bar{l}(t-1)) \\
+E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}_K = \bar{a}_K, \bar{L}_K = \bar{l}_K) \ \ \times\\
+& \prod_{t=1}^{K} P(L_t=l_t | \bar{A}_{t-1} = \bar{a}_{t-1}, \bar{L}_{t-1} = \bar{l}_{t-1}) \\
 \end{align*}
 
 Therefore in this specific example it would be:
 \begin{align*}
-E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}(2) = \bar{a}(2), \bar{L}(2) = \bar{l}(K) \ \ \times\\
-&\prod_{0}^{2} P(L(t)=l(t) | \bar{A}(t-1) = \bar{a}(t-1), \bar{L}(t-1) = \bar{l}(t-1)) \\
+E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}_2 = \bar{a}_2, \bar{L}_2 = \bar{l}_2) \ \ \times\\
+&\prod_{0}^{2} P(L_t=l_t | \bar{A}_{t-1} = \bar{a}_{t-1}, \bar{L}_{t-1} = \bar{l}_{t-1}) \\
 \end{align*}
 (Given that timepoints run from $t=0$ to $t=2$, and thus $K=2$)
 
