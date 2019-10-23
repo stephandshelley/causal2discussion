@@ -69,34 +69,34 @@ and adding what I  think is correct below. Additional note: I checked my interpr
 
 Basic probability reminder for factoring:
 
-* $P(A,B) = P(A \cup B) = P(A|B) X P(B)$
+* $P(A,B) = P(A \cup B) = P(A|B) \times P(B)$
 
 * If we know that say 10% of the class drinks coffee, and that of coffee drinkers 50% like ginger cookies, then 5% of the class drinks coffee AND likes ginger cookies.
 
-* So then, $P(A, B, C) = P(A|B,C) X P(B|C) X P(C)$
+* So then, $P(A, B, C) = P(A|B,C) \times P(B|C) \times P(C)$
 
 Because we have something that is a function of the joint distribution ($P_0$) we can factorize it using probability rules into conditional distributions that we can use.
 
-# Question 2(d) What are the observed data O? Factorize the observed data distribution $P_0$ according to the time-ordering.
+# Question 2(d) What are the observed data $O$? Factorize the observed data distribution $P_0$ according to the time-ordering.
 
 
 \begin{align*}
 &P(L_0, A_0, L_1, A_1, L_2) = \\
-&P( L_2 | A_1 = a_1, L_1 = l_1, A_0 = a_0, L_0 = l_0) X P(A_1 | L_1 = l_1, A_0 = a_0, L_0 = l_0) \\
-&XP(L_1 | A_0 = a_0, L_0 = l_0) X P(A_0 | L_0 = l_0) X P(L_0 = l_0) \\
-\end{align*}
-
-\begin{align*}
+&P(L_2 | A_1 = a_1, L_1 = l_1, A_0 = a_0, L_0 = l_0) \ \times \\
+&P(A_1 | L_1 = l_1, A_0 = a_0, L_0 = l_0) \times P(L_1 | A_0 = a_0, L_0 = l_0) \ \times \\
+&P(A_0 | L_0 = l_0) \times P(L_0 = l_0) \\
+\\
 &P(L_0, A_0, L_1, A_1, L_2) = \\
-&\prod_{0}^{2} P(L_k=l_k | \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1} ) X \\ &\prod_{0}^1  P(A_k=a_k| \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1}) \\
+&\ \ \ \ \ \ \prod_{0}^{2} P(L_k=l_k | \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1} ) \ \times \\ 
+&\ \ \ \ \ \ \prod_{0}^{1}  P(A_k=a_k| \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1}) \\
 \end{align*}
 
-# Question 2(d) What are the observed data O? Factorize the observed data distribution $P_0$ according to the time-ordering.
+# Question 2(d) What are the observed data $O$? Factorize the observed data distribution $P_0$ according to the time-ordering.
 
 \begin{align*}
-P(O=o) & = \\
-\prod_{0}^{2} &Q(L_k=l_k |\bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1} ) X \\
-\prod_{0}^1 &g(A_k=a_k| \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1}) 
+P(O=o) &= \\
+\prod_{0}^{2} &Q(L_k=l_k |\bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1} ) \times \\
+\prod_{0}^{1} &g(A_k=a_k| \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1}) \\
 \end{align*}
 
 <!-- Note, the Q factors are the g-comp portion of this and the g factors are the iptw portion-->
@@ -118,24 +118,27 @@ $\hat{\psi_{n, gcomp}}(P_n) = 1/n \sum_{i=1}^n \bar{Q_n}(A_i=a,W_i)$
 -->
 
 <!--Shelley- can you check the indexing on these sums/products? I'm not sure I translated it right from Maya's slides, SH -->
-<!--No, I don't think that's right - commenting it out but let's discuss, SF-->
+<!--No, I don't think that's right - commenting it out but let's discuss what I've done (based on Maya's Lecture 3, slide 34) to see if you agree? SF-->
+
 <!--
 \begin{align*}
 E(Y_{\bar{a}}) = &\sum_0^1 E(Y | \bar{A}_K = \bar{a}_K, \bar{L}_K = \bar{l}_K) X \\
 & \prod_{0}^{1} P(L_k=l_k | \bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_{k-1} = \bar{l}_{k-1} )
 \end{align*}
 -->
+
 The general longitudinal G computation formula is:
 \begin{align*}
-E(Y_{\bar{a}}) = &\sum_\bar{l} E(Y | \bar{A}(K) = \bar{a}(K), \bar{L}(K) = \bar{l}(K) \ \ \times\\
-& \prod_{t=1}^{K} P(L(t)=l(t) | \bar{A}(t-1) = \bar{a}(t-1), \bar{L}(t-1) = \bar{l}(t-1))
+E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}(K) = \bar{a}(K), \bar{L}(K) = \bar{l}(K) \ \ \times\\
+& \prod_{t=1}^{K} P(L(t)=l(t) | \bar{A}(t-1) = \bar{a}(t-1), \bar{L}(t-1) = \bar{l}(t-1)) \\
 \end{align*}
 
 Therefore in this specific example it would be:
 \begin{align*}
-E(Y_{\bar{a}}) = &\sum_\bar{l} E(Y | \bar{A}(K) = \bar{a}(K), \bar{L}(K) = \bar{l}(K) \ \ \times\\
-& \prod_{t=1}^{K} P(L(t)=l(t) | \bar{A}(t-1) = \bar{a}(t-1), \bar{L}(t-1) = \bar{l}(t-1))
+E(Y_{\bar{a}}) = &\sum_{\bar{l}} E(Y | \bar{A}(2) = \bar{a}(2), \bar{L}(2) = \bar{l}(K) \ \ \times\\
+&\prod_{0}^{2} P(L(t)=l(t) | \bar{A}(t-1) = \bar{a}(t-1), \bar{L}(t-1) = \bar{l}(t-1)) \\
 \end{align*}
+(Given that timepoints run from $t=0$ to $t=2$, and thus $K=2$)
 
 <!--
 # Question 2(g): How would you implement a longitudinal parametric G formula (i.e. non-targeted substitution) estimator for this parameter?
