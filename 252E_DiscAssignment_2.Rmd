@@ -171,7 +171,11 @@ For the censored population, the authors calculated the estimated 20-year risk o
 
 # Question 5. How is death by another cause handled in the primary analysis?
 
+The authors treated death from other causes the same as censoring; they calculated the estimated 20-year risk of CHD based on the covariate pattern of subjects and used this to estimate the cumulative incidence among those who had died from other causes.
+
 # Question 6. What exclusion restrictions do the authors make?
+
+The authors make no exclusion restrictions.
 
 # Question 7. What parametric assumptions do the authors make? How much might these impact results (alluded to in the sensitivity analyses)? How might you approach the estimation problem differently?
 
