@@ -143,24 +143,67 @@ The BMI intervention is specifying "an attribute rather than a behavior" so the 
 
 # Question 4. How is censoring handled in the primary analysis? Discuss the relevant assumptions.
 
-For the censored population, the authors calculated the estimated 20-year risk of CHD based on their covariate pattern and used this to estimate the cumulative incidence among those who had been censored.
+The authors handled censoring by setting $C_k$ (loss to follow up) as not occurring (i.e., $C_k = 0$). Therefore, their real target causal parameter equals $E(Y_{\bar{a}, C_k=0})$. The sequential randomization assumption is then extended, because the authors assumed that the measured past is sufficient to deal with any informative censoring. This can be explained as:
+$E(Y_{\bar{a}, C_k=0}) \perp C_t | \bar{L}_t, \bar{A}_t = 1, \bar{C}_{t-1} = 0$ across all values of $t$.
+
+They also extended their positivity assumption - essentially, this requires the assumption that there is some positive probability of being censored and uncensored.
+$\min(\mathbb{P}(C_t=1|\bar{L}_t, \bar{A}_t=1,  \bar{C}_t=1)) > 0$ 
+and
+$\min(\mathbb{P}(C_t=0|\bar{L}_t, \bar{A}_t=1,  \bar{C}_t=0)) > 0$ 
 
 # Question 5. How is death by another cause handled in the primary analysis?
 
 The authors treated death from other causes the same as censoring; they calculated the estimated 20-year risk of CHD based on the covariate pattern of subjects and used this to estimate the cumulative incidence among those who had died from other causes.
 
+***
+They left it alone. They do not set death from other causes to anything; they just allowed it to be part of the data generating process. 
+They treat it as a competing risk...
+***
+
+Probability you died of non-causes, then probability you died from CHD.
+
 # Question 6. What exclusion restrictions do the authors make?
 
-The authors make no exclusion restrictions.
+Any average U_L1 is independe
+PARAGRAPH AT THE TOP OF 1604.
+They assume the components are all independent of each other...?
+Anytime you've ot a multi-dimensional L node, you just need to estimate that conditional distribution of Lt given the past, where Lt canhave lots of dimensions. You can factorize within an L node. But if there's no As in there, Where you get into trouble is if you have some As in there - then your G-comp formula changes. Now, ti will matter what order you put things in. One option is you write this out for every possible order. You write out the G-comp formula for that A. #######"For convenience in estimation", in the appendix, this says why they did this#########
+If they assume they are all independent of each other, they make it so there's no time-ordering within a particular time-node so you can use the same set of parametric models regardless of where you intervene. 
 
 # Question 7. What parametric assumptions do the authors make? How much might these impact results (alluded to in the sensitivity analyses)? How might you approach the estimation problem differently?
 
-The authors use a parametric model for probability of CHD and risk of death given a variety of time-varying risk factors ($L$s): pooled logistic regression. The order in which the covariates are included in the regression model affects the risk estimates. Model misspecification may also bias the estimates because of improper extrapolation beyond the limits of the data, or improper fitting of a line or curve based on assumed relationships of the treatment and outcome. 
+The authors use a parametric model for probability of CHD and risk of death given a variety of time-varying risk factors ($L$s): pooled logistic regression. The order in which the covariates are included in the regression model (the order in which the time-varying covariates are generated) affects the risk estimates. Model misspecification may also bias the estimates because of improper extrapolation beyond the limits of the data, or improper fitting of a line or curve based on assumed relationships of the treatment and outcome. 
+
+--Distribution of functional form of all the time-varying risk factors, including the outcome 
+--Assume models are correctly specified
+
+--These might impact results (what they found) was that the absolute measure ofrisk was sensitive to these changes, but the relative measure was not sensitive.
 
 I might approach this estimation problem using nonparametric estimators, such as TMLE. This would allow us to utilize SuperLearner or other strategies to generate estimates, not subject to model misspecification in the same ways.
 
 # Question 8. On page 1604, the authors describe the simulation of risk factor histories not present in the observed data. What assumption does this refer to? What is the danger here?
 
-This assumes that average risk factor histories of people who are censored (or died from non-CHD causes) are not meaningfully different from the average risk factor histories of people who continue to be observed in the dataset, such that the missing data can be filled in via covariate patterns. The danger here is that there could be meaningful differences between people who are censored or died from other causes, and violations of the assumption used here could obscure important patterns in risk of death as a result of CHD in this population.
+This assumes that there is only noninformative censoring, that is, that average risk factor histories of people who are censored (or died from non-CHD causes) are not meaningfully different from the average risk factor histories of people who continue to be observed in the dataset, such that the missing data can be filled in via covariate patterns. The danger here is that censoring could be informative - there could be meaningful differences between people who are censored or died from other causes, and violations of the assumption used here could obscure important patterns in risk of CHD in this population. 
+
+--This resfers to the positivty assumption requireming that observed treatment varies within confounder strata. If you extrapolate beyond the suppor tof the data you cannot be sur ethat your estiamtes are wll-related to reality. 
+
+Dangers
+
+1. It might happen by change that certin subjects are not sampled
+2. Small sample
+3. Certain groups rarely or never receive treatment
+4. Several covariates
+5. Treatment with multiple levels
+6. Several continuous variables
+
+Altneratives:
+-bootstrap
+-restriction of the covariate set
+-Alternative parameterization
+-Change of target parameter
+-Restirction of sample/quetsion
+-Change of the treatment.
+
+Remindre: positivity is model and parameter specific
 
 # Question 9. Bonus: The authors say they used cross validation to fine tune prediction models. What do you think they mean? How would you use cross validation to fine tune prediction models?
