@@ -1,0 +1,50 @@
+---
+title: 'Discussion Assignment #3'
+author: "Sabrina Boyce, Shelley Facente, and Steph Holm"
+date: "11/6/2019"
+output: beamer_presentation
+---
+
+<!--
+# Question 1: Specify the question of interest. How does this question differ from that addressed in the original analysis of the randomized trial? What was the authors' motivation for doing a secondary analysis?
+<SHELLEY ANSWER HERE>
+
+# Question 2: Specify the longitudinal causal model $\mathcal{M^{F}}$ for individual level data (with endogenous nodes and time ordering corresponding to the observed data as specified in Section 3). What do you think about the temporal ordering assumptions? Any concerns? \textit{Bonus:} How might you modify this causal model to more accurately describe knowledge about the true data generating process?
+<SHELLEY ANSWER HERE>
+
+# Question 3: Specify the counterfactual outcomes of interest. Hint: First define the interventions of interest. Then define the counterfactual outcome under these interventions (the counterfactual outcome is a random variable). How are these counterfactual outcomes generated using an intervention on the causal model?
+<SABRINA ANSWER HERE>
+
+# Question 4: Specify the target causal parameter.
+<SABRINA ANSWER HERE>
+
+# Question 5: What are the observed data? What is the assumed link between the observed data and the structural causal model $\mathcal{M^{F}}$? Factorize the observed data distribution $P_0(O)$ according to the time-ordering.
+<SABRINA ANSWER HERE>
+
+# Question 6: What are the needed identifiability assumptions? Do they seem reasonable here? Any particular concerns?
+<SABRINA ANSWER HERE>
+-->
+
+# Question 7: Under the assumption of sequential randomization and positivity, write out the (counterfactual or "post intervention") distribution $Q^{\bar{a}}$ a of the counterfactual non-intervention variables ($W$; $\bar{L}^{\bar{a}}_5$, $Y^{\bar{a}}$) as a function of the observed data distribution $P_0$.
+<SABRINA ANSWER HERE>
+
+
+# Question 8: Specify the statistical estimand using the traditional G-computation formula.
+<!--(Fine to assume $W$ is discrete to keep the discrete notation we have been using in class, and write this in the form we have been using in class.)-->
+<SABRINA ANSWER HERE>
+
+
+# Question 9: Briefly review implementation of "traditional" longitudinal parametric G-Computation for this estimand. What are some possible pros/cons to this approach?
+<SHELLEY ANSWER HERE>
+
+
+<!--
+# Question 10: What is the sequential representation of the statistical estimand? (Note - try to write it out for yourself rather than copying as there appears to be a typo in eq. 2.)
+<SHELLEY ANSWER HERE>
+
+# Question 11: Give an overview of implementation of the sequential G computation estimator. What are some advantages over the traditional parametric G comp estimator?
+<SHELLEY ANSWER HERE>
+
+# Question 12: Give an overview of implementation of the sequential TMLE.
+<SHELLEY ANSWER HERE>
+-->
