@@ -2,10 +2,9 @@
 title: 'Discussion Assignment #3'
 author: "Sabrina Boyce, Shelley Facente, and Steph Holm"
 date: "11/6/2019"
-output: beamer_presentation
+output: pdf_document
 ---
 
-<!--
 # Question 1: Specify the question of interest. How does this question differ from that addressed in the original analysis of the randomized trial? What was the authors' motivation for doing a secondary analysis?
 The question of interest is: *What causal effect does breastfeeding duration have on the number of infections a newborn is expected to experience in their first year?* This differs from the original analysis in the RCT because they were originally evaluating the effect of longer breastfeeding duration (via the PROBIT intervention) on gastrointestinal tract infection. While their results indicated a significant reduction in infection incidence for infants whose mothers were in the intervention group, since breastfeeding was not randomized, causality could not reasonably be determined. Since breastfeeding can't ethnically be randomized, a secondary analysis using statistical techniques to assess causality was required.
 
@@ -56,7 +55,6 @@ P(A(k)|\bar{L}_K, \bar{A}_{K-1}, \bar{C}_K, W > 0 - a.e.,  for t=1,2..5
 \end{align*}
 
 These assumptions do seem reasonable here. 
--->
 
 # Question 7: Under the assumption of sequential randomization and positivity, write out the (counterfactual or "post intervention") distribution $Q^{\bar{a}}$ a of the counterfactual non-intervention variables ($W$; $\bar{L}^{\bar{a}}_5$, $Y^{\bar{a}}$) as a function of the observed data distribution $P_0$.
 
@@ -102,7 +100,6 @@ P_O^{\bar{a}}= Q^{\bar{a}}&(Y^{\bar{a}}, \bar{L}_K^{\bar{a}}, W)=Q_Y(Y|\bar{C}_K
 \end{column}
 \end{columns}
 
-<!--
 # Question 10: What is the sequential representation of the statistical estimand? 
 By sequentially breaking up the expectations into nested conditional expectations, the marginal expectation of the outcome assuming no censoring can be represented like this:
 
@@ -130,4 +127,3 @@ To implement sequential TMLE, we go through the following steps:
 5. Update the initial estimate of $E_0(Y|A,W)$ using that clever covariate, by running a logistic regression of $Y_i$ on $H_n(A_i,W_i)$ using log\textit{it}$(\bar{Q}^0_n(A_i,W_i))$ as an offset, and obtaining an MLE estimate of the coefficient $\epsilon$ on each clever covariate.
 6. Calculate the predicted values for each individual under each treatment regimen using the updated estimate.
 7. Update $\Psi(P_0)$ as the empirical mean of the predicted values of $Y$ based on the updated fit, for each treatment regimen of interest.
--->
