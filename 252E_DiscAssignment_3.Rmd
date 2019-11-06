@@ -60,21 +60,22 @@ These assumptions do seem reasonable here.
 
 # Question 7: Under the assumption of sequential randomization and positivity, write out the (counterfactual or "post intervention") distribution $Q^{\bar{a}}$ a of the counterfactual non-intervention variables ($W$; $\bar{L}^{\bar{a}}_5$, $Y^{\bar{a}}$) as a function of the observed data distribution $P_0$.
 
-The "Post Intervention" distribution $Q^{\bar{a}}$ a of the counterfactual non-intervention variables is:
+The "Post Intervention" distribution $Q^{\bar{a}}$ of the counterfactual non-intervention variables is:
 
 \begin{align*}
-P_O^{\bar{a}}= Q^\bar{a}(Y^\bar{a}, \bar{L}_K^\bar{a}, W)=Q_Y(Y|\bar{C}_K=0, \bar{A}_{K-1}=\bar{a}_{K-1}, \bar{L}_{K-1}, W) \ \ \times\\
-\prod_{t=1}^{K-1}Q_{L_t}(L_t|\bar{C}_t=0, \bar{A}_{t-1}=\bar{a}_{t-1}, \bar{L}_{t-1}, W) Q_W(W)
+P_O^{\bar{a}}= Q^{\bar{a}}&(Y^{\bar{a}}, \bar{L}_K^{\bar{a}}, W)=Q_Y(Y|\bar{C}_K=0, \bar{A}_{K-1}=\bar{a}_{K-1}, \bar{L}_{K-1}, W) \ \ \times\\
+&\prod_{t=1}^{K-1}Q_{L_t}(L_t|\bar{C}_t=0, \bar{A}_{t-1}=\bar{a}_{t-1}, \bar{L}_{t-1}, W) Q_W(W)
 \end{align*}
 
 
 # Question 8: Specify the statistical estimand using the traditional G-computation formula.
 <!--(Fine to assume $W$ is discrete to keep the discrete notation we have been using in class, and write this in the form we have been using in class.)-->
 
+\footnotesize
 \begin{align*}
-E(Y_{\bar{a}}) = &\sum_{\bar{l}}E_0(Y|\bar{A}(5)=\bar{a}(5), \bar{L}(5)=\bar{l}(5), \bar{C}(5)=0, W)\ \ \times\\ &\prod_{1}^{5} P_0(L(t)=l(t)|\bar{A}(t-1)=\bar{a}(t-1), \bar{L}(t-1)=\bar{l}(t-1), \bar{C}(t)=0, W) P_0(W)
+&E(Y_{\bar{a}}) = \sum_{\bar{l}}E_0(Y|\bar{A}(5)=\bar{a}(5), \bar{L}(5)=\bar{l}(5), \bar{C}(5)=0, W)\ \ \times\\ 
+&\prod_{1}^{5} P_0(L(t)=l(t)|\bar{A}(t-1)=\bar{a}(t-1), \bar{L}(t-1)=\bar{l}(t-1), \bar{C}(t)=0, W) P_0(W)
 \end{align*}
-
 
 # Question 9: Briefly review implementation of "traditional" longitudinal parametric G-Computation for this estimand. What are some possible pros/cons to this approach?
 "Traditional" longitudinal parametric G-Computation requires:
