@@ -6,17 +6,28 @@ output: pdf_document
 ---
 
 # Question 1: Specify the question of interest. How does this question differ from that addressed in the original analysis of the randomized trial? What was the authors' motivation for doing a secondary analysis?
-The question of interest is: *What causal effect does breastfeeding duration have on the number of infections a newborn is expected to experience in their first year?* This differs from the original analysis in the RCT because they were originally evaluating the effect of longer breastfeeding duration (via the PROBIT intervention) on gastrointestinal tract infection. While their results indicated a significant reduction in infection incidence for infants whose mothers were in the intervention group, since breastfeeding was not randomized, causality could not reasonably be determined. Since breastfeeding can't ethnically be randomized, a secondary analysis using statistical techniques to assess causality was required.
+The question of interest is: *What causal effect does breastfeeding duration have on the number of infections a newborn is expected to experience in their first year?* This differs from the original analysis in the trial because they were originally evaluating the effect of longer breastfeeding duration (via the PROBIT intervention) on gastrointestinal tract infection, using an intent-to-treat analysis (breastfeeding was not randomized). While their results indicated a significant reduction in infection incidence for infants whose mothers were in the intervention group, since breastfeeding was not randomized, causality could not reasonably be determined. Since breastfeeding can't ethnically be randomized, a secondary analysis using statistical techniques to assess causality was required.
 
 # Question 2: Specify the longitudinal causal model $\mathcal{M^{F}}$ for individual level data (with endogenous nodes and time ordering corresponding to the observed data as specified in Section 3). What do you think about the temporal ordering assumptions? Any concerns? \textit{Bonus:} How might you modify this causal model to more accurately describe knowledge about the true data generating process?
-The longitudinal causal model $\mathcal{M^{F}}$ is:
+We know from the article that the endogenous nodes are:
 \begin{align*}
 W &= \text{baseline covariates} \\
 C_t, t = 1...K &= \text{Whether the subject was censored before the }t\text{th timepoint (including the final timepoint, }K\text{, which would indicate censoring at the time the outcome was measured.)} \\
 L_t, t = 1...K-1 &= \text{Whether the infant had any gastrointestinal infections between timepoints} t\text{ - 1 and }t\text{. Any subject already censored during or prior to any given timepoint received an }L_t\text{ value of zero.} \\
-A_t, t = 1...K-1 &= \text{Breastfeeding status at timepoint } t. \\
+A_t, t = 1...K-1 &= \text{Breastfeeding status at timepoint } t (yes/no). \\
 Y &= \text{the outcome: the total number of infections accrued up until and including visit }K. \text{Any subject censored during or prior to time }K\text{ received a }Y\text{ value of zero.} \\
 \end{align*}
+  
+Therefore, the longitudinal structural causal model $\mathcal{M^{F}}$ is:
+\begin{align*}
+W &= f_W(U_W)
+C(t) &= f_C(\bar{C}(t-1), W, U_{\bar}{C}(t)), t = 1,2,...6
+L(t) &= f_L(\bar{L}(t-1), C(t), W, U_{\bar{L}}(t)), t = 1,2,...5
+A(t) &= f_A(\bar{A}(t-1), \bar{L}(t), \bar{C}(t), W, U_{\bar{A}}(t)), t = 1,2,...5
+Y &= f_Y(\bar{A}(5), \bar{L}(5), \bar{C}(6), W, U_Y(6)))
+\end{align*}
+
+One concern about the time-ordering is that at each timepoint $t$, $L(t)$ measures whether an infection occurred between time $t-1$ and time $t$, and $A(t)$ measures whether the mother is still breastfeeding at time $t$ or stopped at some point between time $t-1$ and time $t$. Therefore there is uncertainty about the time ordering of infection and breastfeeding cessation, which must be considered relative to inference.
 
 # Question 3: Specify the counterfactual outcomes of interest. Hint: First define the interventions of interest. Then define the counterfactual outcome under these interventions (the counterfactual outcome is a random variable). How are these counterfactual outcomes generated using an intervention on the causal model?
 
@@ -81,49 +92,42 @@ P_O^{\bar{a}}= Q^{\bar{a}}&(Y^{\bar{a}}, \bar{L}_K^{\bar{a}}, W)=Q_Y(Y|\bar{C}_K
 * estimation of distribution of each time-varying covariate given the past, and
 * evaluation through simulation.
 
-\vspace{18pt} 
+The pros of this are that the traditional longitudinal parametric G-comp:
 
-\begin{columns}
-\begin{column}{0.48\textwidth}
-\underline{Pros:}
-\begin{itemize}
-\item Fairly easy to set up and run
-\item Efficient, if the model is correct
-\end{itemize}
-\end{column}
-\begin{column}{0.48\textwidth}
-\underline{Cons:}
-\begin{itemize}
-\item Susceptible to bias if model not correctly specified
-\item Requires estimating lots of conditional densities
-\end{itemize}
-\end{column}
-\end{columns}
+* tends to be less sensitive to positivity violations than other options, and
+* is efficient, if the model is correct.
+
+However, the cons are that:
+
+* estimates are susceptible to bias if model not correctly specified, and 
+* in normal circumstances, this requires estimating lots of conditional densities.
 
 # Question 10: What is the sequential representation of the statistical estimand? 
 By sequentially breaking up the expectations into nested conditional expectations, the marginal expectation of the outcome assuming no censoring can be represented like this:
 
 \begin{align*}
-\Psi_{\bar{a}} &= E(Y_{\bar{a}}) \\
+\Psi_{\bar{a}} &= E(Y_{\bar{a}}) = E(Y_{\bar{a},\bar{c}=0}\\
 &= E\{E(Y|C_K = 0, \bar{A}_{K-1} = \bar{a}_{K-1}, \bar{L}_{K-1}, W)\} \\
-&= E[E\{E(Y|C_K = 0, \bar{A}_{K-1} = \bar{a}_{K-1}, \bar{L}_{K-1}, W)|C_K = 0, \bar{A}_{K-2} = \bar{a}_{K-2}, \bar{L}_{K-2}, W\}] \\
+&= E[E\{E(Y|C_K = 0, \bar{A}_{K-1} = \bar{a}_{K-1}, \bar{L}_{K-1}, W)|C_{K-1} = 0, \bar{A}_{K-2} = \bar{a}_{K-2}, \bar{L}_{K-2}, W\}] \\
+(Note that this nesting would continue until reaching the point that E(Y) is only conditional on W, not represented here.)
+
 \end{align*}
 
 # Question 11: Give an overview of implementation of the sequential G computation estimator. What are some advantages over the traditional parametric G comp estimator?
-To implement the sequential G-comp estimator, you fit a model for each level of conditioning, beginning with the innermost expectation (i.e. first fit $Q_K$ and then the rest of the $Q_t$s). Then predictions are obtained for each individual moving backward in time, eventually taking a mean of $Q_1$ over all observations, conditional only on the baseline covariates. That gives the target causal parameter.
+To implement the sequential G-comp estimator, you fit a model for each level of conditioning, beginning with the innermost expectation (i.e. first fit $Q_K$ and then the rest of the $Q_t$s). In this case, that means regressing the outcome Y ($t = 6$) on all the covariate history up to timepoint $t = 5$, for only those completely uncensored subjects with observed breastfeeding regime ($\bar{A}(5)=\bar{a}(5), \ \bar{C}(6) = 0$). Then, predict the conditional outcome for each individual moving backward in time, eventually taking a mean of $Q_1$ over all observations, conditional only on the baseline covariates (i.e. including those who were censored) to obtain the target causal parameter.
   
 This method provides a few advantages over the traditional parametric G-comp estimator described in Question 9, namely:
 
-* No longer have to estimate a series of conditional densities
-* Many fewer dimensions (don't need to estimate all the conditional densities in the same way)
+* No longer have to estimate a series of conditional densities, but instead a series of conditional expectations (easier to estimate well, though in this situation with only one binary $L$ covariate that isn't much of a problem). 
+* Many fewer dimensions (Q factors), which means we don't need to estimate all the conditional densities in the same way.
 
 # Question 12: Give an overview of implementation of the sequential TMLE.
 To implement sequential TMLE, we go through the following steps:
 
-1. Estimate $E_0(Y|A,W) \equiv \bar{Q}_0(A,W)$, for example using SuperLearner.
-2. Generate predicted values for Y for each individual, given that individual's $A_i, W_i$.
-3. Estimate the treatment mechanism, again using SuperLearner or similar ($g_0(A|W)$).
-4. Use this estimate to create a new "clever covariate" ($H_n(A,W)$) for each individual.
-5. Update the initial estimate of $E_0(Y|A,W)$ using that clever covariate, by running a logistic regression of $Y_i$ on $H_n(A_i,W_i)$ using log\textit{it}$(\bar{Q}^0_n(A_i,W_i))$ as an offset, and obtaining an MLE estimate of the coefficient $\epsilon$ on each clever covariate.
+1. Estimate $E_0(Y|\bar{A}, \bar{L},W) \equiv \bar{Q}_0(\bar{A}, \bar{L},W)$, using SuperLearner or similar options.
+2. Generate predicted values for Y for each individual, given that individual's $\bar{A}_i,\bar{L}_i, W_i$.
+3. Estimate the treatment mechanism (the probability associated with obtaining a given history of breastfeeding \bar{a} up until time $t - 1$), again using SuperLearner or similar ($g_0(\bar{A}|\bar{L},W)$).
+4. Use this estimate to create a new "clever covariate" ($H_n(\bar{A},\bar{L},W)$) for each individual.
+5. Update the initial estimate of $E_0(Y|\bar{A}, \bar{L},W)$ using that clever covariate, by running a logistic regression of $Y_i$ on $H_n(\bar{A}_i,\bar{L}_i,W_i)$ using log\textit{it}$(\bar{Q}^0_n(\bar{A}_i,\bar{L}_i, W_i))$ as an offset, and obtaining an MLE estimate of the coefficient $\epsilon$ on each clever covariate.
 6. Calculate the predicted values for each individual under each treatment regimen using the updated estimate.
 7. Update $\Psi(P_0)$ as the empirical mean of the predicted values of $Y$ based on the updated fit, for each treatment regimen of interest.
