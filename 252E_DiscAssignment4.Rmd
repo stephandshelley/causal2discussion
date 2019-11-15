@@ -1,0 +1,40 @@
+---
+title: 'Discussion Assignment #4'
+author: "Sabrina Boyce, Shelley Facente and Steph Holm"
+date: "11/14/2019"
+output:
+  beamer_presentation: default
+---
+
+## Question 4: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with a G computation estimator? Describe the impact of positivity violations on the performance of this estimator.
+
+## Question 5: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with IPTW? Describe the impact of positivity violations on the performance of IPTW. What is the impact of weight truncation?
+
+<!--
+## Question 1: Consider the point treatment example presented in the paper. What assumptions are needed for identifiability? Why do we need the positivity assumption? Focus on the strong positivity assumption.
+
+## Question 2: Consider the longitudinal example presented above. What are the analogous assumptions? Interpret the strong positivity assumption in words.
+
+## Question 3: How do theoretical and practical violations of the positivity assumption arise? Give a real world example of each. Do you think practical positivity violations are more or less likely to be a problem for longitudinal versus point treatment interventions? Why?
+
+## Question 6: Provide an overview of the properties of the AIPTW and TMLE estimators. Describe impact of positivity violations on the performance of AIPTW and TMLE.
+
+## Question 7: What are a few quick ways to diagnose positivity violations? What are some of their short-comings?
+
+## Question 8: Discuss the authors proposed parametric bootstrap.
+(a) Formally define bias for an estimator.
+(b) What are some of the causes of bias?
+(c) Describe the parametric bootstrap-based biased estimate and its implementation.
+(d) What is the goal of the proposed algorithm? What are sources of bias does it help identify? What are
+some of its limitations?
+
+## Question 9. Describe the following approaches to responding to positivity violations, using an example. Discuss their pros/cons.
+(a) Changing the projection function h(a; V )
+(b) Restricting the adjustment set
+(c) Restricting the sample (trimming)
+(d) Changing the intervention of interest
+
+## Question 10. For each approach, consider whether it could be applied in the setting of a longitudinal intervention (in which control for time dependent confounding is required for identifiability). If not, why not (or under what conditions would it break down)? If so, how could it be used to mitigate threats due to positivity? Use an example to illustrate.
+
+## Question 11. How could you formalize the selection between different target parameters?
+-->
