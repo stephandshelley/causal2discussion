@@ -22,19 +22,53 @@ output:
 ## Question 7: What are a few quick ways to diagnose positivity violations? What are some of their short-comings?
 
 ## Question 8: Discuss the authors proposed parametric bootstrap.
-(a) Formally define bias for an estimator.
-(b) What are some of the causes of bias?
-(c) Describe the parametric bootstrap-based biased estimate and its implementation.
-(d) What is the goal of the proposed algorithm? What are sources of bias does it help identify? What are
-some of its limitations?
+### (a) Formally define bias for an estimator.
+
+The bias is  the difference between the true value of the target parameter ($\Psi(P_0)$) and the expectation of the estimator from a sample of  n i.i.d. observations ($\hat{\psi} (P_n)$):
+
+$$Bias(\hat{\Psi}, P_0, n) = E_{P_0}\hat{\psi} (P_n) -\Psi(P_0)$$
+
+
+### (b) What are some of the causes of bias?
+
+1.  inconsistency of the estimators $g_n$ or $Q_n$
+2.  $g_0$ does not satisfy the positivity assumption
+3.  $g_n$ or $Q_n$ may have large finite sample bias even if they are consistent
+4.  estimated values of $g_n$ might be close to zero or one
+
+### (c) Describe the parametric bootstrap-based biased estimate and its implementation.
+
+The parametric bootstrap bias estimate uses as estimate ($\hat{P}_0$) of the observed data distribution ($P_0$), and samples a bootstrap distribution (${P_n}^\#$). This means that a sample of size n is resampled *with replacement* to draw many new samples of size n. The candidate estimator is applied to each bootstrapped sample and the mean of this is compared to the true value:
+
+$\hat{Bias_{PB}}(\hat{\Psi}, \hat{P_0}, n) = E_{\hat{P_0}}\hat{\psi} ({P_n}^\#) -\Psi(\hat{P_0})$
+
+### (d) What is the goal of the proposed algorithm? What are sources of bias does it help identify? What are some of its limitations?
+
+The goal of the proposed algorithm is to not only diagnose positivity violations but also to estimate the quantity of the resulting bias. This does not provide an accurate estimate of the bias,  but does alow the investigator to assess when bias might be a threat to inference. It only identifies bias from positivity violations and near-violations. A limitation of this method is that  it does not address identifiability issues, ie. biases  that make the observed parameter different from the target causal parameter. It also will not diagnose inconsistency  in the estimators (point #1 in part b above).
+
+
 
 ## Question 9. Describe the following approaches to responding to positivity violations, using an example. Discuss their pros/cons.
-(a) Changing the projection function h(a; V )
-(b) Restricting the adjustment set
-(c) Restricting the sample (trimming)
-(d) Changing the intervention of interest
+### (a) Changing the projection function h(a; V )
+
+### (b) Restricting the adjustment set
+
+### (c) Restricting the sample (trimming)
+
+### (d) Changing the intervention of interest
+
+
+
 
 ## Question 10. For each approach, consider whether it could be applied in the setting of a longitudinal intervention (in which control for time dependent confounding is required for identifiability). If not, why not (or under what conditions would it break down)? If so, how could it be used to mitigate threats due to positivity? Use an example to illustrate.
+### (a) Changing the projection function h(a; V )
+
+### (b) Restricting the adjustment set
+
+### (c) Restricting the sample (trimming)
+
+### (d) Changing the intervention of interest
+
 
 ## Question 11. How could you formalize the selection between different target parameters?
 -->
