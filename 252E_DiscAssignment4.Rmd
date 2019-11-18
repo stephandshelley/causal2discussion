@@ -10,7 +10,7 @@ output:
 
 ## Question 5: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with IPTW? Describe the impact of positivity violations on the performance of IPTW. What is the impact of weight truncation?
 
-<!--
+
 ## Question 1: Consider the point treatment example presented in the paper. What assumptions are needed for identifiability? Why do we need the positivity assumption? Focus on the strong positivity assumption.
 
 ## Question 2: Consider the longitudinal example presented above. What are the analogous assumptions? Interpret the strong positivity assumption in words.
@@ -49,11 +49,20 @@ The goal of the proposed algorithm is to not only diagnose positivity violations
 
 
 ## Question 9. Describe the following approaches to responding to positivity violations, using an example. Discuss their pros/cons.
+
 ### (a) Changing the projection function h(a; V )
+
+You can change the projection function to only apply over a certain range of treatment levels. For example, if FDA approved treatment dosages are a smaller range than all dosages seen in the dataset, you could restrict to the FDA approved dosages. You can also write a function that will allow you to find the target parameter which minimizes the positivity violations within an allowable range of bias, and use bootstrapping to implement this. That function could be written as: $h_\delta (a, V) = I(a \in [c(\delta), d(\delta)])$, where increasing $\delta$ implies a progressive restriction on the allowable range of treatment levels. And advantage of this strategy is that it works well with a marginal structural model. Disadvantages include ...
 
 ### (b) Restricting the adjustment set
 
+Another technique is to restrict levels of the covariates that cause positivity violations (or near violations). An advantage of this method is that things that cause positivity violations are often strong confounders so these exclusions may help with identifiability as well. As described in part a, how much to restrict can also be determined using bootstrapping to balance restriction and bias.
+
 ### (c) Restricting the sample (trimming)
+
+This can be done by eliminating subjects with particular values of W (as in part b), but this can also happen by calculating propensity scores, and eliminating subjects with extreme propensity scores. There is a trade-off between the representativeness of the subsample in which things can be estimated and the variance of the estimate.
+
+Disadvantages of this include minimizing sample size, creating new practicalpositivity violations as sample size decreases, and minimizing external validity to a subset of the population of interest.
 
 ### (d) Changing the intervention of interest
 
@@ -63,9 +72,13 @@ The goal of the proposed algorithm is to not only diagnose positivity violations
 ## Question 10. For each approach, consider whether it could be applied in the setting of a longitudinal intervention (in which control for time dependent confounding is required for identifiability). If not, why not (or under what conditions would it break down)? If so, how could it be used to mitigate threats due to positivity? Use an example to illustrate.
 ### (a) Changing the projection function h(a; V )
 
+
 ### (b) Restricting the adjustment set
 
 ### (c) Restricting the sample (trimming)
+
+This is problematic for longitudinal situations because the  covariates that cause positivity violations may be affected by past treatment, which can introduce new biases by conditioning on post-treatment covariates. 
+
 
 ### (d) Changing the intervention of interest
 
