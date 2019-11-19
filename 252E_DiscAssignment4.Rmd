@@ -23,7 +23,33 @@ The estimator can extrapolate based on covariate strata where there are not spar
 * if the model used to estimate $\bar{Q}_0$ is misspecified, the resulting effect estimates will be biased.
 
 
-## Sabrina- Question 5: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with IPTW? Describe the impact of positivity violations on the performance of IPTW. What is the impact of weight truncation?
+##Question 5: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with IPTW? 
+
+The coefficients of a working MSM can be estimated using a weighted regression of the outcome Y on A and W using the model $m(A,V|\beta)$ with weights $h(A,V)/g_n(A|W)$, where $h(A,V)$ is a projection function used to define the target causal parameter and is often $=1$ in IPTW.  
+
+$g_n(A|W)$ can be estimated using a model selection regime that uses cross-validation and loss-based learning.  
+
+##Question 5: Focus on the point treatment example in the paper. Describe the impact of positivity violations on the performance of IPTW. 
+IPTW is especially sensitive to positivity violations: If in a finite sample there are few observations within certain strata combinations such that $g_n(A|W=w)$ approaches zero the following will likely result:  
+ * weights on the rare individuals that did have this combination will be extreme
+ * the causal effect estimate will heaviliy rely on the experiences of these few rare individuals
+ * Bias in the estimate 
+ * Variance will be inflated 
+ 
+If there are 0 individuals in the sample for a certain strata combination, the following will likely result: 
+* this may go undetected because weights for this strata combination will be undefined 
+* variance of the estimate will be reduced
+* bias in the estimate can become extreme 
+ 
+ 
+##Question 5: What is the impact of weight truncation?
+Weight truncation of extreme weights (ex. 1st and 99th percentile) is used to reduce variance and reduce the impact of a few rare individuals on the effect estimate. 
+
+This, however, leads to misspecification of the treatment model $g_n$, which is a bias that we cannot easily correct.  
+
+
+
+
 
 <!--
 ## Shelley- Question 1: Consider the point treatment example presented in the paper. What assumptions are needed for identifiability? Why do we need the positivity assumption? Focus on the strong positivity assumption.
