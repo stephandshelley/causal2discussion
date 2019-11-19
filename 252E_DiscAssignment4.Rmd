@@ -14,7 +14,6 @@ $\hat{Y}_{a,i} = \bar{Q}_n(a,W_i) \text{ for }a \in \mathcal{A}, i = 1,...,n.$
 
 The estimate $\hat{\beta}_{Gcomp}$ is then obtained by regressing $\hat{Y}_a$ on $a$ and $V$ according to the model $m(a,V|\beta)$, with weights based on the projection function $h(a,V)$.  
   
-  
 ## Question 4: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with a G computation estimator? Describe the impact of positivity violations on the performance of this estimator.
 If there are positivity violations, some of the conditional probabilities are not defined. 
   
