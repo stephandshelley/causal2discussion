@@ -71,7 +71,21 @@ Practical positivity violations are more likely to be a problem for longitudinal
 
 ## Sabrina-Question 6: Provide an overview of the properties of the AIPTW and TMLE estimators. Describe impact of positivity violations on the performance of AIPTW and TMLE.
 
+TMLE - TMLE relies on estimation of both $Q_0$ and $g_0$ and is consistent if either one is a consistent estimator AND satisfies the positivity assumption. 
+
+When positivity assumption cannot be satisfied the estimate relies entirely on a consistent estimation of $Q_0$ and are then subject to the same vulnerabilies of the G-comp estimate (data extrapolation using a model that is likely misspecified). 
+
 ## Sabrina-Question 7: What are a few quick ways to diagnose positivity violations? What are some of their short-comings?
+
+Some quick ways to diagnose positivity violations include:  
+
+1. Descriptive statistics of treatment variability within covariate strata    
+    **limitations: unweildy with large number of strata combinations, continuous or multilevel variables    
+2. Examine the distribution of the weights  
+    **limitations: if strata contain 0 observations, you will not see this weight in the distribution.     
+3. Examine the distribution of the propensity score values ($g_n(a|W)$) for $a \in A$ to see if any are close to 0  
+    **limitations: this can diagnose a problem but not quantify its severity  
+ 
 
 ## Steph- Question 8: Discuss the authors proposed parametric bootstrap.
 ### (a) Formally define bias for an estimator.
@@ -141,4 +155,11 @@ This is problematic for longitudinal situations because the  covariates that cau
 Dynamic regimes can work well in longitudinal settings.
 
 ## Sabrina-Question 11. How could you formalize the selection between different target parameters?
+
+One could formalize the selection of a target parameter by: 
+1. Selecting a family of target parameters and indexing them in some way by the degree to which each parameter trades improved identifiability for proximity to the target causal parameter
+2. Define a threshold of an acceptable amount of bias
+3. Using parametric bootstrapping to estimate the amount of bias for each parameter in the family
+4. Select the target parameter that falls below the designated threshold for bias and offers the greatest proximity to the target causal parameter. 
+
 -->
