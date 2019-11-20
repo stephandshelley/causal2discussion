@@ -6,52 +6,9 @@ output:
   beamer_presentation: default
 ---
 
-## Question 4: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with a G computation estimator? Describe the impact of positivity violations on the performance of this estimator.
-The coefficients of a working MSM are estimated by generating a predicted counterfactual outcome for each subject under each possible treatment:
-$\hat{Y}_{a,i} = \bar{Q}_n(a,W_i) \text{ for }a \in \mathcal{A}, i = 1,...,n.$
-
-\vspace{10pt}
-
-The estimate $\hat{\beta}_{Gcomp}$ is then obtained by regressing $\hat{Y}_a$ on $a$ and $V$ according to the model $m(a,V|\beta)$, with weights based on the projection function $h(a,V)$.  
-  
-## Question 4: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with a G computation estimator? Describe the impact of positivity violations on the performance of this estimator.
-If there are positivity violations, some of the conditional probabilities are not defined. 
-  
-The estimator can extrapolate based on covariate strata where there are not sparsity issues.
-
-* this depends heavily on the model for $\bar{Q}_0$
-* if the model used to estimate $\bar{Q}_0$ is misspecified, the resulting effect estimates will be biased.
-
-
-##Question 5: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with IPTW? 
-
-The coefficients of a working MSM can be estimated using a weighted regression of the outcome Y on A and W using the model $m(A,V|\beta)$ with weights $1/g_n(A|W)$  
-
-$g_n(A|W)$ can be estimated using a model selection regime that uses cross-validation and loss-based learning.  
-
-##Question 5: Focus on the point treatment example in the paper. Describe the impact of positivity violations on the performance of IPTW. 
-IPTW is especially sensitive to positivity violations: If in a finite sample there are few observations within certain strata combinations such that $g_n(A|W=w)$ approaches zero the following will likely result:  
-
-* Weights on the rare individuals that did have this combination will be extreme   
-* Bias in the estimate    
-* Variance will be inflated   
- 
-If there are 0 individuals in the sample for a certain strata combination, the following will likely result: 
-   
-* Variance of the estimate will be reduced   
-* Bias in the estimate can become extreme 
- 
- 
-##Question 5: What is the impact of weight truncation?
-Weight truncation of extreme weights (ex. 1st and 99th percentile) is used to reduce variance and reduce the impact of a few rare individuals on the effect estimate. 
-
-This, however, leads to misspecification of the treatment model $g_n$, which is a bias that we cannot easily correct.  
 
 
 
-
-
-<!--
 ## Shelley- Question 1: Consider the point treatment example presented in the paper. What assumptions are needed for identifiability? Why do we need the positivity assumption? Focus on the strong positivity assumption.
 For identifiability in general, we must assume that all measured covariates are sufficient to control for confounding, and that there is sufficient variablity in treatment/exposure assigmment within strata of confounders (positivity). In the point treatment example presented in the paper, we also require the assumption that $A$ and $Y_a$ are conditionally independent given $W$ (this is the randomization assumption).
 
@@ -68,6 +25,44 @@ Wow I am really unsure what goes here and hoping to glean this from discussion.
 Theoretical violations of the positivity assumption arise when something is biologically implausible, such as in a case of cisgender males who would never receive a hysterectomy ($g(hysterectomy | cis male) = 0$). Practical positivity violations occur when a sample size is small or unbalanced such that when a sample is stratified on a confounder (or set of confounders), there is no variation in the treatment levels of interest. 
 
 Practical positivity violations are more likely to be a problem for longitudinal interventions, because there are multiple treatment nodes that make up the overall treatment regime; therefore, there are many more opportunities for practical positivity violations to arise.
+
+## Question 4: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with a G computation estimator? Describe the impact of positivity violations on the performance of this estimator.
+The coefficients of a working MSM are estimated by generating a predicted counterfactual outcome for each subject under each possible treatment:
+$\hat{Y}_{a,i} = \bar{Q}_n(a,W_i) \text{ for }a \in \mathcal{A}, i = 1,...,n.$
+
+\vspace{10pt}
+
+The estimate $\hat{\beta}_{Gcomp}$ is then obtained by regressing $\hat{Y}_a$ on $a$ and $V$ according to the model $m(a,V|\beta)$, with weights based on the projection function $h(a,V)$.  
+  
+If there are positivity violations, some of the conditional probabilities are not defined. 
+  
+The estimator can extrapolate based on covariate strata where there are not sparsity issues.
+
+* this depends heavily on the model for $\bar{Q}_0$
+* if the model used to estimate $\bar{Q}_0$ is misspecified, the resulting effect estimates will be biased.
+
+
+##Question 5: Focus on the point treatment example in the paper. How would you estimate the coefficients of a working MSM with IPTW? 
+
+The coefficients of a working MSM can be estimated using a weighted regression of the outcome Y on A and W using the model $m(A,V|\beta)$ with weights $1/g_n(A|W)$  
+
+$g_n(A|W)$ can be estimated using a model selection regime that uses cross-validation and loss-based learning.  
+
+IPTW is especially sensitive to positivity violations: If in a finite sample there are few observations within certain strata combinations such that $g_n(A|W=w)$ approaches zero the following will likely result:  
+
+* Weights on the rare individuals that did have this combination will be extreme   
+* Bias in the estimate    
+* Variance will be inflated   
+ 
+If there are 0 individuals in the sample for a certain strata combination, the following will likely result: 
+   
+* Variance of the estimate will be reduced   
+* Bias in the estimate can become extreme 
+ 
+
+Weight truncation of extreme weights (ex. 1st and 99th percentile) is used to reduce variance and reduce the impact of a few rare individuals on the effect estimate. 
+
+This, however, leads to misspecification of the treatment model $g_n$, which is a bias that we cannot easily correct.  
 
 ## Sabrina-Question 6: Provide an overview of the properties of the AIPTW and TMLE estimators. Describe impact of positivity violations on the performance of AIPTW and TMLE.
 
