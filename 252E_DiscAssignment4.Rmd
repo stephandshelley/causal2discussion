@@ -75,7 +75,7 @@ When positivity assumption cannot be satisfied the estimate relies entirely on a
 Some quick ways to diagnose positivity violations include:  
 
 1. Descriptive statistics of treatment variability within covariate strata    
-    **limitations: unweildy with large number of strata combinations, continuous or multilevel variables    
+    **limitations: unwieldy with large number of strata combinations, continuous or multilevel variables    
 2. Examine the distribution of the weights  
     **limitations: if strata contain 0 observations, you will not see this weight in the distribution.     
 3. Examine the distribution of the propensity score values ($g_n(a|W)$) for $a \in A$ to see if any are close to 0  
