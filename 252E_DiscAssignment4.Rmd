@@ -2,26 +2,31 @@
 title: 'Discussion Assignment #4'
 author: "Sabrina Boyce, Shelley Facente and Steph Holm"
 date: "11/14/2019"
-output:
-  beamer_presentation: default
+output: pdf_document
 ---
 
-
-
-
-## Shelley- Question 1: Consider the point treatment example presented in the paper. What assumptions are needed for identifiability? Why do we need the positivity assumption? Focus on the strong positivity assumption.
+##Question 1: Consider the point treatment example presented in the paper. What assumptions are needed for identifiability? Why do we need the positivity assumption? Focus on the strong positivity assumption.
 For identifiability in general, we must assume that all measured covariates are sufficient to control for confounding, and that there is sufficient variablity in treatment/exposure assigmment within strata of confounders (positivity). In the point treatment example presented in the paper, we also require the assumption that $A$ and $Y_a$ are conditionally independent given $W$ (this is the randomization assumption).
 
 Specifically, the strong positivity assumption (assumption of experimental treatment assignment) can be written as:
 $$
 \underset{a\in \mathcal{A}}{\mathrm{inf}} \ g_0(a|W) > 0, \mathrm{-a.e.}
 $$
+
+This means there is some positivity probability of following each level of a given regime, given every set of Ws supported by the data generating process. 
+
 We need this because the G-computation formula is only valid if the conditional distributions in the formula are well-defined; if one or more treatment levels of interest do not occur within some covariate strata then the conditional probability $P_0(Y=y|A=a,W=w)$ will not be well-defined for some value(s) $(a,w)$.
 
-## Shelley- Question 2: Consider the longitudinal example presented above. What are the analogous assumptions? Interpret the strong positivity assumption in words.
-Wow I am really unsure what goes here and hoping to glean this from discussion.
+## Question 2: Consider the longitudinal example presented above. What are the analogous assumptions? Interpret the strong positivity assumption in words.
+1. Sequential randomization assumption
+$Y \perp A(t), \bar{L}(t), \bar{A}(t-1) = \bar{a}(t-1)), \ \ t = 1,...,K$
 
-## Shelley- Question 3: How do theoretical and practical violations of the positivity assumption arise? Give a real world example of each. Do you think practical positivity violations are more or less likely to be a problem for longitudinal versus point treatment interventions? Why?
+2. Positivity assumption
+$P[\bar{A}(t) = \bar{a}(t), \bar{L}(t), \bar{A}(t-1) = \bar{a}(t-1)] >0, \ \ t = 1,...,K$
+
+The strong positivity assumption in the logitudinal case means there is some positivity probability of following each level of a given regime at every timepoint, given every set of W and L(t)s for that timepoint, supported by the data generating process. 
+
+## Question 3: How do theoretical and practical violations of the positivity assumption arise? Give a real world example of each. Do you think practical positivity violations are more or less likely to be a problem for longitudinal versus point treatment interventions? Why?
 Theoretical violations of the positivity assumption arise when something is biologically implausible, such as in a case of cisgender males who would never receive a hysterectomy ($g(hysterectomy | cis male) = 0$). Practical positivity violations occur when a sample size is small or unbalanced such that when a sample is stratified on a confounder (or set of confounders), there is no variation in the treatment levels of interest. 
 
 Practical positivity violations are more likely to be a problem for longitudinal interventions, because there are multiple treatment nodes that make up the overall treatment regime; therefore, there are many more opportunities for practical positivity violations to arise.
@@ -65,7 +70,8 @@ Weight truncation of extreme weights (ex. 1st and 99th percentile) is used to re
 This, however, leads to misspecification of the treatment model $g_n$, which is a bias that we cannot easily correct.  
 
 ## Sabrina-Question 6: Provide an overview of the properties of the AIPTW and TMLE estimators. Describe impact of positivity violations on the performance of AIPTW and TMLE.
-Both are "double robust" estimators meaning they rely on estimation of both $Q_0$ and $g_0$. This estimator is consistent if $g_0$ is a consistent estimator and satisfies the positivity assumption OR $Q_0$ is estimated consistently and the estimator for g converges to a distribution that satisfies positivity. Given this, in practice it does not make sense to do a double robust estimator without truncating the weights. 
+
+TMLE - TMLE relies on estimation of both $Q_0$ and $g_0$ and is consistent if either one is a consistent estimator AND satisfies the positivity assumption. 
 
 When positivity assumption cannot be satisfied the estimate relies entirely on a consistent estimation of $Q_0$ and are then subject to the same vulnerabilies of the G-comp estimate (data extrapolation using a model that is likely misspecified). 
 
@@ -73,15 +79,15 @@ When positivity assumption cannot be satisfied the estimate relies entirely on a
 
 Some quick ways to diagnose positivity violations include:  
 
-1. Descriptive statistics of treatment variability within covariate strata.    
-    **limitations: unweildy with large number of strata combinations, continuous or multilevel variables.    
-2. Examine the distribution of the weights.  
+1. Descriptive statistics of treatment variability within covariate strata    
+    **limitations: unwieldy with large number of strata combinations, continuous or multilevel variables    
+2. Examine the distribution of the weights  
     **limitations: if strata contain 0 observations, you will not see this weight in the distribution.     
-3. Examine the distribution of the propensity score values ($g_n(a|W)$) for $a \in A$ to see if any are close to 0.  
+3. Examine the distribution of the propensity score values ($g_n(a|W)$) for $a \in A$ to see if any are close to 0  
     **limitations: this can diagnose a problem but not quantify its severity  
  
 
-## Steph- Question 8: Discuss the authors proposed parametric bootstrap.
+## Question 8: Discuss the authors proposed parametric bootstrap.
 ### (a) Formally define bias for an estimator.
 
 The bias is  the difference between the true value of the target parameter ($\Psi(P_0)$) and the expectation of the estimator from a sample of  n i.i.d. observations ($\hat{\psi} (P_n)$):
@@ -98,46 +104,54 @@ $$Bias(\hat{\Psi}, P_0, n) = E_{P_0}\hat{\psi} (P_n) -\Psi(P_0)$$
 
 ### (c) Describe the parametric bootstrap-based biased estimate and its implementation.
 
-The parametric bootstrap bias estimate uses as estimate ($\hat{P}_0$) of the observed data distribution ($P_0$), and samples a bootstrap distribution (${P_n}^\#$). This means that a sample of size n is resampled *with replacement* to draw many new samples of size n. The candidate estimator is applied to each bootstrapped sample and the mean of this is compared to the true value:
+The parametric bootstrap bias estimate uses an estimate ($\hat{P}_0$) of the observed data distribution ($P_0$), and samples a bootstrap distribution (${P_n}^\#$). This means that a sample of size n is resampled *with replacement* to draw many new samples of size n. The candidate estimator is applied to each bootstrapped sample and the mean of these estimates is compared to the true value from our original sample:
 
 $\hat{Bias_{PB}}(\hat{\Psi}, \hat{P_0}, n) = E_{\hat{P_0}}\hat{\psi} ({P_n}^\#) -\Psi(\hat{P_0})$
 
+Steps:
+* Estimate $P_0$
+* Generate the bootstrap sample ${P_n}^\#$ by sampling $\hat{P_0}$ withreplacement
+* Estimate $\hat{\psi} ({P_n}^\#)$
+* Repeat the above many times and take the means $E_{\hat{P_0}}\hat{\psi} ({P_n}^\#)$
+
+
 ### (d) What is the goal of the proposed algorithm? What are sources of bias does it help identify? What are some of its limitations?
 
-The goal of the proposed algorithm is to not only diagnose positivity violations but also to estimate the quantity of the resulting bias. This does not provide an accurate estimate of the bias,  but does alow the investigator to assess when bias might be a threat to inference. It only identifies bias from positivity violations and near-violations. A limitation of this method is that  it does not address identifiability issues, ie. biases  that make the observed parameter different from the target causal parameter. It also will not diagnose inconsistency  in the estimators (point #1 in part b above).
+The goal of the proposed parametric bootstrap algorithm is to not only diagnose positivity violations but also to estimate the quantity of the resulting bias. This does not provide an accurate estimate of the bias,  but does alow the investigator to assess when bias might be a threat to inference. It ONLY identifies bias from positivity violations and near-violations. A limitation of this method is that  it does not address identifiability issues, ie. biases  that make the observed parameter different from the target causal parameter (in other words, the amount of bias due to model misspecification). It also will not diagnose inconsistency in the estimators (point #1 in part b above).
 
 
 
-## Steph- Question 9. Describe the following approaches to responding to positivity violations, using an example. Discuss their pros/cons.
+## Question 9. Describe the following approaches to responding to positivity violations, using an example. Discuss their pros/cons.
 
 ### (a) Changing the projection function h(a; V )
 
-You can change the projection function to only apply over a certain range of treatment levels. For example, if FDA approved treatment dosages are a smaller range than all dosages seen in the dataset, you could restrict to the FDA approved dosages. You can also write a function that will allow you to find the target parameter which minimizes the positivity violations within an allowable range of bias, and use bootstrapping to implement this. That function could be written as: $h_\delta (a, V) = I(a \in [c(\delta), d(\delta)])$, where increasing $\delta$ implies a progressive restriction on the allowable range of treatment levels. And advantage of this strategy is that it works well with a marginal structural model. Disadvantages include ...
+You can change the projection function to only apply over a certain range of treatment levels. For example, if FDA approved treatment dosages are a smaller range than all dosages seen in the dataset, you could restrict to the FDA approved dosages. You can also write a function that will allow you to find the target parameter which minimizes the positivity violations within an allowable range of bias, and use bootstrapping to implement this. That function could be written as: $h_\delta (a, V) = I(a \in [c(\delta), d(\delta)])$, where increasing $\delta$ implies a progressive restriction on the allowable range of treatment levels. And advantage of this strategy is that it works well with a marginal structural model, because you can weaken the necessary positivity assumption. Disadvantages include that you are redifining your target parameter.
 
 ### (b) Restricting the adjustment set
 
-Another technique is to restrict levels of the covariates that cause positivity violations (or near violations). A disadvantage of this method is that things that cause positivity violations are often strong confounders so these exclusions may worsen identifiability as well. As described in part a, how much to restrict can also be determined using bootstrapping to balance restriction and bias.
+Another technique is to restrict levels of the covariates (the Ws) that cause positivity violations (or near violations). A disadvantage of this method is that things that cause positivity violations are often strong confounders so these exclusions may worsen identifiability (ie. increase confounding) as well. As described in part a, how much to restrict can also be determined using bootstrapping to balance restriction and bias.
 
 ### (c) Restricting the sample (trimming)
 
 This can be done by eliminating subjects with particular values of W , but this can also happen by calculating propensity scores, and eliminating subjects with extreme propensity scores. There is a trade-off between the representativeness of the subsample in which things can be estimated and the variance of the estimate.
 
-Disadvantages of this include minimizing sample size, creating new practical positivity violations as sample size decreases, and minimizing external validity to a subset of the population of interest.
+Disadvantages of this include minimizing sample size, creating new practical positivity violations as sample size decreases, and minimizing external validity to a subset of the population of interest. That subset may be difficult to describe if the trimming was based on propensity scores.
 
 ### (d) Changing the intervention of interest
 
 You can use dynamic treatment regimes to change the intervention of interest, so that the counterfactual treatments are more appropriate for the treatment levels seen in the observed data. For example, if people with a poor kidney function only ever get a lower dose of the medication,  kidney function could be included as a criterion in  a dynamic treatment  regime.
 
+These questions may be  more realistic, and can allow for some  relaxation of the positivity assumption. However, it can be difficult to determine what the alternative treatment level is.
 
-## Steph-Question 10. For each approach, consider whether it could be applied in the setting of a longitudinal intervention (in which control for time dependent confounding is required for identifiability). If not, why not (or under what conditions would it break down)? If so, how could it be used to mitigate threats due to positivity? Use an example to illustrate.
+## Question 10. For each approach, consider whether it could be applied in the setting of a longitudinal intervention (in which control for time dependent confounding is required for identifiability). If not, why not (or under what conditions would it break down)? If so, how could it be used to mitigate threats due to positivity? Use an example to illustrate.
 
 ### (a) Changing the projection function h(a; V )
 
-This would work well for the longitudinal setting.
+This would work well for the longitudinal setting. You would examine only the effect of a limited range  of $\bar{A}$ values, such that $h (\bar{a}, \bar{V}) = I(a \in [c, d])$. You could use an MSM and we'll need support for at least 2 or more $\bar{a}$ histories.
 
 ### (b) Restricting the adjustment set
 
-As in the point  treatment setting, restricting the adjustment set in longitudinal questions can increase the bias.
+As in the point  treatment setting, restricting the adjustment set in longitudinal questions can increase the bias. Further, if the variable in question is an L variable, this can then prevent the sequential randomization assumption from being true.
 
 ### (c) Restricting the sample (trimming)
 
@@ -146,7 +160,8 @@ This is problematic for longitudinal situations because the  covariates that cau
 
 ### (d) Changing the intervention of interest
 
-Dynamic regimes can work well in longitudinal settings.
+Dynamic regimes can work well in longitudinal settings, though again this redefines your causal question.
+
 
 ## Sabrina-Question 11. How could you formalize the selection between different target parameters?
 
