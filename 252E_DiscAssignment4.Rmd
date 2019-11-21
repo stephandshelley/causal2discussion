@@ -129,28 +129,29 @@ You can change the projection function to only apply over a certain range of tre
 
 ### (b) Restricting the adjustment set
 
-Another technique is to restrict levels of the covariates that cause positivity violations (or near violations). A disadvantage of this method is that things that cause positivity violations are often strong confounders so these exclusions may worsen identifiability (ie. increase confounding) as well. As described in part a, how much to restrict can also be determined using bootstrapping to balance restriction and bias.
+Another technique is to restrict levels of the covariates (the Ws) that cause positivity violations (or near violations). A disadvantage of this method is that things that cause positivity violations are often strong confounders so these exclusions may worsen identifiability (ie. increase confounding) as well. As described in part a, how much to restrict can also be determined using bootstrapping to balance restriction and bias.
 
 ### (c) Restricting the sample (trimming)
 
 This can be done by eliminating subjects with particular values of W , but this can also happen by calculating propensity scores, and eliminating subjects with extreme propensity scores. There is a trade-off between the representativeness of the subsample in which things can be estimated and the variance of the estimate.
 
-Disadvantages of this include minimizing sample size, creating new practical positivity violations as sample size decreases, and minimizing external validity to a subset of the population of interest.
+Disadvantages of this include minimizing sample size, creating new practical positivity violations as sample size decreases, and minimizing external validity to a subset of the population of interest. That subset may be difficult to describe if the trimming was based on propensity scores.
 
 ### (d) Changing the intervention of interest
 
 You can use dynamic treatment regimes to change the intervention of interest, so that the counterfactual treatments are more appropriate for the treatment levels seen in the observed data. For example, if people with a poor kidney function only ever get a lower dose of the medication,  kidney function could be included as a criterion in  a dynamic treatment  regime.
 
+These questions may be  more realistic, and can allow for some  relaxation of the positivity assumption. However, it can be difficult to determine what the alternative treatment level is.
 
 ## Question 10. For each approach, consider whether it could be applied in the setting of a longitudinal intervention (in which control for time dependent confounding is required for identifiability). If not, why not (or under what conditions would it break down)? If so, how could it be used to mitigate threats due to positivity? Use an example to illustrate.
 
 ### (a) Changing the projection function h(a; V )
 
-This would work well for the longitudinal setting.
+This would work well for the longitudinal setting. You would examine only the effect of a limited range  of $\bar{A}$ values, such that $h (\bar{a}, \bar{V}) = I(a \in [c, d])$. You could use an MSM and we'll need support for at least 2 or more $\bar{a}$ histories.
 
 ### (b) Restricting the adjustment set
 
-As in the point  treatment setting, restricting the adjustment set in longitudinal questions can increase the bias.
+As in the point  treatment setting, restricting the adjustment set in longitudinal questions can increase the bias. Further, if the variable in question is an L variable, this can then prevent the sequential randomization assumption from being true.
 
 ### (c) Restricting the sample (trimming)
 
@@ -159,7 +160,8 @@ This is problematic for longitudinal situations because the  covariates that cau
 
 ### (d) Changing the intervention of interest
 
-Dynamic regimes can work well in longitudinal settings.
+Dynamic regimes can work well in longitudinal settings, though again this redefines your causal question.
+
 
 ## Sabrina-Question 11. How could you formalize the selection between different target parameters?
 
