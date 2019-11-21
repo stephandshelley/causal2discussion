@@ -82,7 +82,7 @@ Some quick ways to diagnose positivity violations include:
     **limitations: this can diagnose a problem but not quantify its severity  
  
 
-## Steph- Question 8: Discuss the authors proposed parametric bootstrap.
+## Question 8: Discuss the authors proposed parametric bootstrap.
 ### (a) Formally define bias for an estimator.
 
 The bias is  the difference between the true value of the target parameter ($\Psi(P_0)$) and the expectation of the estimator from a sample of  n i.i.d. observations ($\hat{\psi} (P_n)$):
@@ -99,25 +99,32 @@ $$Bias(\hat{\Psi}, P_0, n) = E_{P_0}\hat{\psi} (P_n) -\Psi(P_0)$$
 
 ### (c) Describe the parametric bootstrap-based biased estimate and its implementation.
 
-The parametric bootstrap bias estimate uses as estimate ($\hat{P}_0$) of the observed data distribution ($P_0$), and samples a bootstrap distribution (${P_n}^\#$). This means that a sample of size n is resampled *with replacement* to draw many new samples of size n. The candidate estimator is applied to each bootstrapped sample and the mean of this is compared to the true value:
+The parametric bootstrap bias estimate uses an estimate ($\hat{P}_0$) of the observed data distribution ($P_0$), and samples a bootstrap distribution (${P_n}^\#$). This means that a sample of size n is resampled *with replacement* to draw many new samples of size n. The candidate estimator is applied to each bootstrapped sample and the mean of these estimates is compared to the true value from our original sample:
 
 $\hat{Bias_{PB}}(\hat{\Psi}, \hat{P_0}, n) = E_{\hat{P_0}}\hat{\psi} ({P_n}^\#) -\Psi(\hat{P_0})$
 
+Steps:
+* Estimate $P_0$
+* Generate the bootstrap sample ${P_n}^\#$ by sampling $\hat{P_0}$ withreplacement
+* Estimate $\hat{\psi} ({P_n}^\#)$
+* Repeat the above many times and take the means $E_{\hat{P_0}}\hat{\psi} ({P_n}^\#)$
+
+
 ### (d) What is the goal of the proposed algorithm? What are sources of bias does it help identify? What are some of its limitations?
 
-The goal of the proposed algorithm is to not only diagnose positivity violations but also to estimate the quantity of the resulting bias. This does not provide an accurate estimate of the bias,  but does alow the investigator to assess when bias might be a threat to inference. It only identifies bias from positivity violations and near-violations. A limitation of this method is that  it does not address identifiability issues, ie. biases  that make the observed parameter different from the target causal parameter. It also will not diagnose inconsistency  in the estimators (point #1 in part b above).
+The goal of the proposed parametric bootstrap algorithm is to not only diagnose positivity violations but also to estimate the quantity of the resulting bias. This does not provide an accurate estimate of the bias,  but does alow the investigator to assess when bias might be a threat to inference. It ONLY identifies bias from positivity violations and near-violations. A limitation of this method is that  it does not address identifiability issues, ie. biases  that make the observed parameter different from the target causal parameter (in other words, the amount of bias due to model misspecification). It also will not diagnose inconsistency in the estimators (point #1 in part b above).
 
 
 
-## Steph- Question 9. Describe the following approaches to responding to positivity violations, using an example. Discuss their pros/cons.
+## Question 9. Describe the following approaches to responding to positivity violations, using an example. Discuss their pros/cons.
 
 ### (a) Changing the projection function h(a; V )
 
-You can change the projection function to only apply over a certain range of treatment levels. For example, if FDA approved treatment dosages are a smaller range than all dosages seen in the dataset, you could restrict to the FDA approved dosages. You can also write a function that will allow you to find the target parameter which minimizes the positivity violations within an allowable range of bias, and use bootstrapping to implement this. That function could be written as: $h_\delta (a, V) = I(a \in [c(\delta), d(\delta)])$, where increasing $\delta$ implies a progressive restriction on the allowable range of treatment levels. And advantage of this strategy is that it works well with a marginal structural model. Disadvantages include ...
+You can change the projection function to only apply over a certain range of treatment levels. For example, if FDA approved treatment dosages are a smaller range than all dosages seen in the dataset, you could restrict to the FDA approved dosages. You can also write a function that will allow you to find the target parameter which minimizes the positivity violations within an allowable range of bias, and use bootstrapping to implement this. That function could be written as: $h_\delta (a, V) = I(a \in [c(\delta), d(\delta)])$, where increasing $\delta$ implies a progressive restriction on the allowable range of treatment levels. And advantage of this strategy is that it works well with a marginal structural model, because you can weaken the necessary positivity assumption. Disadvantages include that you are redifining your target parameter.
 
 ### (b) Restricting the adjustment set
 
-Another technique is to restrict levels of the covariates that cause positivity violations (or near violations). A disadvantage of this method is that things that cause positivity violations are often strong confounders so these exclusions may worsen identifiability as well. As described in part a, how much to restrict can also be determined using bootstrapping to balance restriction and bias.
+Another technique is to restrict levels of the covariates that cause positivity violations (or near violations). A disadvantage of this method is that things that cause positivity violations are often strong confounders so these exclusions may worsen identifiability (ie. increase confounding) as well. As described in part a, how much to restrict can also be determined using bootstrapping to balance restriction and bias.
 
 ### (c) Restricting the sample (trimming)
 
@@ -130,7 +137,7 @@ Disadvantages of this include minimizing sample size, creating new practical pos
 You can use dynamic treatment regimes to change the intervention of interest, so that the counterfactual treatments are more appropriate for the treatment levels seen in the observed data. For example, if people with a poor kidney function only ever get a lower dose of the medication,  kidney function could be included as a criterion in  a dynamic treatment  regime.
 
 
-## Steph-Question 10. For each approach, consider whether it could be applied in the setting of a longitudinal intervention (in which control for time dependent confounding is required for identifiability). If not, why not (or under what conditions would it break down)? If so, how could it be used to mitigate threats due to positivity? Use an example to illustrate.
+## Question 10. For each approach, consider whether it could be applied in the setting of a longitudinal intervention (in which control for time dependent confounding is required for identifiability). If not, why not (or under what conditions would it break down)? If so, how could it be used to mitigate threats due to positivity? Use an example to illustrate.
 
 ### (a) Changing the projection function h(a; V )
 
