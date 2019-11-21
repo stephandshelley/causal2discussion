@@ -69,23 +69,21 @@ Weight truncation of extreme weights (ex. 1st and 99th percentile) is used to re
 
 This, however, leads to misspecification of the treatment model $g_n$, which is a bias that we cannot easily correct.  
 
-## Sabrina-Question 6: Provide an overview of the properties of the AIPTW and TMLE estimators. Describe impact of positivity violations on the performance of AIPTW and TMLE.
-
-TMLE - TMLE relies on estimation of both $Q_0$ and $g_0$ and is consistent if either one is a consistent estimator AND satisfies the positivity assumption. 
+## Question 6: Provide an overview of the properties of the AIPTW and TMLE estimators. Describe impact of positivity violations on the performance of AIPTW and TMLE.
+Both are "double robust" estimators meaning they rely on estimation of both $Q_0$ and $g_0$. This estimator is consistent if $g_0$ is a consistent estimator and satisfies the positivity assumption OR $Q_0$ is estimated consistently and the estimator for g converges to a distribution that satisfies positivity. Given this, in practice it does not make sense to do a double robust estimator without truncating the weights. 
 
 When positivity assumption cannot be satisfied the estimate relies entirely on a consistent estimation of $Q_0$ and are then subject to the same vulnerabilies of the G-comp estimate (data extrapolation using a model that is likely misspecified). 
 
-## Sabrina-Question 7: What are a few quick ways to diagnose positivity violations? What are some of their short-comings?
+## Question 7: What are a few quick ways to diagnose positivity violations? What are some of their short-comings?
 
 Some quick ways to diagnose positivity violations include:  
 
-1. Descriptive statistics of treatment variability within covariate strata    
-    **limitations: unwieldy with large number of strata combinations, continuous or multilevel variables    
-2. Examine the distribution of the weights  
+1. Descriptive statistics of treatment variability within covariate strata.    
+    **limitations: unweildy with large number of strata combinations, continuous or multilevel variables.    
+2. Examine the distribution of the weights.  
     **limitations: if strata contain 0 observations, you will not see this weight in the distribution.     
-3. Examine the distribution of the propensity score values ($g_n(a|W)$) for $a \in A$ to see if any are close to 0  
-    **limitations: this can diagnose a problem but not quantify its severity  
- 
+3. Examine the distribution of the propensity score values ($g_n(a|W)$) for $a \in A$ to see if any are close to 0.  
+    **limitations: this can diagnose a problem but not quantify its severity 
 
 ## Question 8: Discuss the authors proposed parametric bootstrap.
 ### (a) Formally define bias for an estimator.
